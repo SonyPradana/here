@@ -38,7 +38,7 @@ final class Printer
     private function send($out)
     {
         $out = $out === false ? '' : $out;
-        (new Style($out))->out();
+        (new Style($out))->out(false);
     }
 
     /**
