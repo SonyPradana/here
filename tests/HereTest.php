@@ -14,14 +14,14 @@ final class HereTest extends TestCase
         $here->here(__DIR__ . '/assets/sample.php', 7);
 
         $dump    = Here::getHere();
-        $capture = [];
-        foreach ($dump[0]['capture'] as $line => $code) {
-            $capture[$line] = trim($code);
-        }
+        // $capture = array_map(fn ($line) => trim($line), $dump[0]['capture']);
+        $capture = Here::getCapture($dump[0]['file'], $dump[0]['capture']);
+        $capture = array_map(fn ($code) => trim($code), $capture);
 
         $this->assertEquals($dump[0]['file'], __DIR__ . '/assets/sample.php');
         $this->assertEquals($dump[0]['line'], 7);
         $this->assertEquals($capture, [
+            4 => '',
             5 => 'function some_function()',
             6 => '{',
             7 => '// target',

@@ -177,8 +177,13 @@ final class Printer
         $max_line = ((int) $content['line']) + 3;
         $lenght   = \strlen((string) $max_line);
 
-        // @phpstan-ignore-next-line
-        foreach ($content['capture'] as $line => $code) {
+        /** @var string */
+        $file     = $content['file'];
+        /** @var array<int, int> */
+        $capture  = $content['capture'];
+        $snapshot = Here::getCapture($file, $capture);
+
+        foreach ($snapshot as $line => $code) {
             $current = $line === $content['line'];
             $arrow   = $current ? '-> ' : '   ';
 

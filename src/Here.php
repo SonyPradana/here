@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Here;
 
+use System\Collection\Collection;
+
 final class Here
 {
     /**
@@ -55,22 +57,52 @@ final class Here
     }
 
     /**
+     * Get content (file) from cache (if exist).
+     *
+     * @param string $file_name File name and location
+     *
+     * @return array<int, string>
+     */
+    public static function getContent($file_name)
+    {
+        if (!isset(self::$cached_file[$file_name])) {
+            self::getFile($file_name);
+        }
+
+        return self::$cached_file[$file_name];
+    }
+
+    /**
+     * Get code snapshot from cached file.
+     *
+     * @param string          $file_name File name and location
+     * @param array<int, int> $lines     Line to capture/snapshot
+     *
+     * @return array<int, string>
+     */
+    public static function getCapture($file_name, $lines)
+    {
+        $content = array_merge([''], self::getContent($file_name));
+
+        return (new Collection($content))->only($lines)->all();
+    }
+
+    /**
      * Create new printer debug inforamtion.
      *
-     * @param string $file File name
-     * @param int    $line Line
+     * @param string $file       File name
+     * @param int    $line       Line
+     * @param int    $line_limit Count line to view
      *
      * @return Printer
      */
-    public function here($file, $line)
+    public function here($file, $line, $line_limit = 3)
     {
-        $content = self::getFile($file);
-        $capture = self::capture($content, $line);
+        $capture = self::capture($line, $line_limit);
 
         $info = self::$info[] = [
             'file'    => $file,
             'line'    => $line,
-            'content' => $content,
             'capture' => $capture,
             'group'   => $this->group,
         ];
@@ -85,7 +117,7 @@ final class Here
      *
      * @return array<int, string>
      */
-    private function getFile($file)
+    private static function getFile($file)
     {
         $cached = isset(self::$cached_file[$file]);
         $exist  = file_exists($file);
@@ -107,22 +139,16 @@ final class Here
     /**
      * capture line of code specific of line.
      *
-     * @param array<int, string> $content
-     * @param int                $line
+     * @param int $line
+     * @param int $count_line
      *
      * @return array<int, mixed>
      */
-    private function capture($content, $line)
+    private function capture($line, $count_line = 3)
     {
-        $total_line         = count($content);
-        $start_capture_line = ($line - 3) < 1 ? 1 : ($line - 3);
-        $end_capture_line   = ($line + 3) > $total_line ? $total_line : ($line + 3);
-        $capture            = [];
+        $start_capture_line = ($line - $count_line) < 1 ? 1 : ($line - $count_line);
+        $end_capture_line   = $line + $count_line;
 
-        for ($line = $start_capture_line; $line < $end_capture_line; $line++) {
-            $capture[$line + 1] = $content[$line];
-        }
-
-        return $capture;
+        return range($start_capture_line, $end_capture_line);
     }
 }

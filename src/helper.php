@@ -31,12 +31,15 @@ if (!function_exists('track')) {
      */
     function track()
     {
-        /** @var array<int, array<string|int, string|int>> */
+        /** @var array<int, array<string, string|int>> */
         $debug = debug_backtrace();
 
         foreach ($debug as $track) {
-            // @phpstan-ignore-next-line
-            (new Here())->here($track['file'], $track['line'])->dump();
+            /** @var string */
+            $file = $track['file'];
+            /** @var int */
+            $line = $track['line'];
+            (new Here())->here($file, $line)->dump();
         }
     }
 }
