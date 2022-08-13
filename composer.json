@@ -6,10 +6,10 @@
     "license": "MIT",
     "autoload": {
         "psr-4": {
-            "Here\\": "src/Here"
+            "Here\\": "src/"
         },
         "files": [
-            "src/Here/helper.php"
+            "src/helper.php"
         ]
     },
     "authors": [
