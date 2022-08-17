@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Here;
 
+use Here\Abstracts\Printer as PrinterAbstract;
 use System\Collection\Collection;
 
 final class Here
@@ -94,7 +95,7 @@ final class Here
      * @param int    $line       Line
      * @param int    $line_limit Count line to view
      *
-     * @return Printer
+     * @return PrinterAbstract
      */
     public function here($file, $line, $line_limit = 3)
     {
@@ -107,7 +108,11 @@ final class Here
             'group'   => $this->group,
         ];
 
-        return new Printer($info);
+        if (php_sapi_name() === 'cli') {
+            return new Printer($info);
+        }
+
+        return new JsonPrinter($info);
     }
 
     /**

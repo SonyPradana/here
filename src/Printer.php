@@ -4,78 +4,42 @@ declare(strict_types=1);
 
 namespace Here;
 
+use Here\Abstracts\Printer as AbstractsPrinter;
 use System\Console\Style\Style;
 use System\Text\Str;
 
-final class Printer
+final class Printer extends AbstractsPrinter
 {
-    /**
-     * Content.
-     *
-     * @var array<string, array<int, mixed>|int|string>
-     */
-    private $content;
-
-    /**
-     * Create new instance with content.
-     *
-     * @param array<string, array<int, mixed>|int|string> $content
-     *
-     * @return void
-     */
-    public function __construct($content)
-    {
-        $this->content = $content;
-    }
-
-    /**
-     * Send output.
-     *
-     * @param string|false $out
-     *
-     * @return void
-     */
-    private function send($out)
+    /** {@inheritdoc} */
+    protected function send($out)
     {
         $out = $out === false ? '' : $out;
         (new Style($out))->out(false);
     }
 
-    /**
-     * dump information only.
-     *
-     * @return void
-     */
+    /** {@inheritdoc} */
     public function info()
     {
-        ob_start();
-        $this->printInfo($this->content);
+        $print = new Style('');
+        $this->printInfo($print, $this->content);
 
-        $this->send(ob_get_clean());
+        $this->send($print->__toString());
     }
 
-    /**
-     * Dump information and code snapshot.
-     *
-     * @param string|array<int|string, mixed>|false $var Addtion information to print
-     *
-     * @return void
-     */
+    /** {@inheritdoc} */
     public function dump($var = false)
     {
-        ob_start();
+        $print = new Style('');
+
         // print header info
-        $this->printInfo($this->content);
+        $this->printInfo($print, $this->content);
         // print content
-        $this->printSnapshot($this->content, $var);
-        $this->send(ob_get_clean());
+        $this->printSnapshot($print, $this->content, $var);
+
+        $this->send($print->__toString());
     }
 
-    /**
-     * dump all registered 'here'.
-     *
-     * @return void
-     */
+    /** {@inheritdoc} */
     public function dumpAll()
     {
         $heres = Here::getHere();
@@ -86,13 +50,7 @@ final class Printer
         }
     }
 
-    /**
-     * Dump information and count by group name.
-     *
-     * @param string $group
-     *
-     * @return void
-     */
+    /** {@inheritdoc} */
     public function count($group)
     {
         $count     = 0;
@@ -109,17 +67,15 @@ final class Printer
             return;
         }
 
-        ob_start();
-        $this->printInfo($last_here, $count);
-        $this->printSnapshot($last_here);
-        $this->send(ob_get_clean());
+        $print = new Style();
+
+        $this->printInfo($print, $last_here, $count);
+        $this->printSnapshot($print, $last_here);
+
+        $this->send($print->__toString());
     }
 
-    /**
-     * Count all avilable group.
-     *
-     * @return void
-     */
+    /** {@inheritdoc} */
     public function countAll()
     {
         $indexed = [];
@@ -137,17 +93,10 @@ final class Printer
 
     // helper ----------------------------------------
 
-    /**
-     * print header information (file info line, code count).
-     *
-     * @param array<string, array<int, mixed>|int|string> $content
-     * @param int|false                                   $with_counter
-     *
-     * @return void
-     */
-    private function printInfo($content, $with_counter = false)
+    /** {@inheritdoc} */
+    protected function printInfo(&$print, $content, $with_counter = false)
     {
-        $print = new Style("\n");
+        $print("\n");
 
         $print->push(' work ')->textDarkGray()->bgGreen()->reverse();
         if ($with_counter !== false) {
@@ -162,17 +111,10 @@ final class Printer
         $print->out();
     }
 
-    /**
-     * print code snapshot.
-     *
-     * @param array<string, array<int, mixed>|int|string> $content
-     * @param string|array<int|string, mixed>|false       $var
-     *
-     * @return void
-     */
-    public function printSnapshot($content, $var = false)
+    /** {@inheritdoc} */
+    protected function printSnapshot(&$print, $content, $var = false)
     {
-        $print = new Style("\n");
+        $print("\n");
 
         $max_line = ((int) $content['line']) + 3;
         $lenght   = \strlen((string) $max_line);

@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Here;
 
+use Here\Abstracts\Printer;
+
 if (!function_exists('here')) {
     /**
      * print debug information.
