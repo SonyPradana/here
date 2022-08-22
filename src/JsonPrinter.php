@@ -46,32 +46,41 @@ class JsonPrinter extends Printer
     /** {@inheritdoc} */
     public function count($group)
     {
-        $count     = 0;
-        $last_here = [];
-
-        foreach (Here::getHere() as $here) {
-            if ($here['group'] === $group) {
-                $count++;
-                $last_here = $here;
+        // group by file name
+        $group_file = [];
+        foreach (Here::getHere() as $files) {
+            if ($files['group'] === $group) {
+                $group_file[$files['file']][] = $files;
             }
         }
+        // group by line
+        $groups = [];
+        foreach ($group_file as $file) {
+            foreach ($file as $result) {
+                if (in_array($result['line'], $groups)) {
+                    continue;
+                }
+                $groups[] = $result['line'];
 
-        if (empty($last_here)) {
-            return;
+                // counter
+                $count    = array_filter($file, fn ($item) => $item['line'] === $result['line']);
+
+                // build snapshot
+                /** @var array<int, int> */
+                $capture  = $result['capture'];
+                /** @var string */
+                $file_name = $result['file'];
+                $snapshot  = Here::getCapture($file_name, $capture);
+
+                // send result
+                $this->sendJson([
+                    'file'     => $result['file'],
+                    'line'     => $result['line'],
+                    'count'    => $count,
+                    'snapshot' => array_map(fn ($trim) => trim($trim), $snapshot),
+                ]);
+            }
         }
-
-        /** @var string */
-        $file     = $last_here['file'];
-        /** @var array<int, int> */
-        $capture  = $last_here['capture'];
-        $snapshot = Here::getCapture($file, $capture);
-
-        $this->sendJson([
-            'file'     => $last_here['file'],
-            'line'     => $last_here['line'],
-            'count'    => $count,
-            'snapshot' => array_map(fn ($trim) => trim($trim), $snapshot),
-        ]);
     }
 
     /** {@inheritdoc} */

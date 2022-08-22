@@ -53,26 +53,32 @@ final class Printer extends AbstractsPrinter
     /** {@inheritdoc} */
     public function count($group)
     {
-        $count     = 0;
-        $last_here = [];
-
-        foreach (Here::getHere() as $here) {
-            if ($here['group'] === $group) {
-                $count++;
-                $last_here = $here;
-            }
-        }
-
-        if (empty($last_here)) {
-            return;
-        }
-
         $print = new Style();
 
-        $this->printInfo($print, $last_here, $count);
-        $this->printSnapshot($print, $last_here);
+        // group by file name
+        $group_file = [];
+        foreach (Here::getHere() as $files) {
+            if ($files['group'] === $group) {
+                $group_file[$files['file']][] = $files;
+            }
+        }
+        // group by line
+        $groups = [];
+        foreach ($group_file as $file) {
+            foreach ($file as $result) {
+                if (in_array($result['line'], $groups)) {
+                    continue;
+                }
+                $groups[] = $result['line'];
 
-        $this->send($print->__toString());
+                $count = array_filter($file, fn ($item) => $item['line'] === $result['line']);
+
+                $this->printInfo($print, $result, count($count));
+                $this->printSnapshot($print, $result);
+
+                $this->send($print->__toString());
+            }
+        }
     }
 
     /** {@inheritdoc} */

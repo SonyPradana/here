@@ -21,5 +21,6 @@ Put `here()` anywhere to your code
 
 # Todo
 - [ ] Socket reporting.
-- [ ] `here()->count()` group by filename.
+- [ ] Socket reporting - browser view.
+- [X] `here()->count()` group by filename.
 
