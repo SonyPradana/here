@@ -57,6 +57,12 @@ if (!function_exists('work')) {
      */
     function work($var = false)
     {
-        here()->dump($var);
+        /** @var array<int, array<string|int, string|int>> */
+        $debug      = debug_backtrace();
+        $file       = (string) $debug[0]['file'];
+        $line       = (int) $debug[0]['line'];
+        $line_count = (int) Config::get('line');
+
+        return (new Here())->here($file, $line, $line_count)->dump($var);
     }
 }
