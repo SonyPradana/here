@@ -63,6 +63,6 @@ if (!function_exists('work')) {
         $line       = (int) $debug[0]['line'];
         $line_count = (int) Config::get('line');
 
-        return (new Here())->here($file, $line, $line_count)->dump($var);
+        (new Here())->here($file, $line, $line_count)->dump($var);
     }
 }
