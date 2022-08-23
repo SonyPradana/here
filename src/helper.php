@@ -46,3 +46,17 @@ if (!function_exists('track')) {
         }
     }
 }
+
+if (!function_exists('work')) {
+    /**
+     * print debug backtrace information.
+     * 
+     * @param string|array<int|string, mixed>|false $var Addtion information to print
+     *
+     * @return void
+     */
+    function work($var = false)
+    {
+        here()->dump($var);
+    }
+}
