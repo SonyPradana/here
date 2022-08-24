@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Here;
 
 use Here\Abstracts\Printer as AbstractsPrinter;
+use Here\Styles\JsonStyle;
+use Here\Styles\VarStyle;
 use System\Console\Style\Style;
 use System\Text\Str;
 
@@ -138,10 +140,11 @@ final class Printer extends AbstractsPrinter
             $print($arrow)->textGreen();
             $print->push(Str::fill((string) $line, ' ', $lenght) . ' | ' . $code)->textDim();
             if ($var !== false && $current) {
-                if (is_array($var)) {
-                    $var = "\n" . json_encode($var, JSON_PRETTY_PRINT);
-                }
-                $print->push(Str::fill('', ' ', $lenght) . 'var : ')->textLightYellow()->push($var)->new_lines();
+                $print->push(Str::fill('', ' ', $lenght) . 'var : ')->textLightYellow();
+
+                $print = is_array($var)
+                    ? (new JsonStyle($print))->ref($var)->render()
+                    : (new VarStyle($print))->ref($var)->render();
             }
             $print->out(false);
         }
