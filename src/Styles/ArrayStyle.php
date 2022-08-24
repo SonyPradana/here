@@ -5,7 +5,7 @@ namespace Here\Styles;
 use Here\Contracts\StyleInterface;
 use System\Console\Style\Style;
 
-class JsonStyle implements StyleInterface
+class ArrayStyle implements StyleInterface
 {
     /** @var Style */
     private $style;
