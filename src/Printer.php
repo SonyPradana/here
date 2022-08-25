@@ -36,7 +36,7 @@ final class Printer extends AbstractsPrinter
         // print header info
         $this->printInfo($print, $this->content);
         // print content
-        $this->printSnapshot($print, $this->content, $var);
+        $this->printSnapshot($print, $this->content, true, $var);
 
         $this->send($print->__toString());
     }
@@ -120,7 +120,7 @@ final class Printer extends AbstractsPrinter
     }
 
     /** {@inheritdoc} */
-    protected function printSnapshot(&$print, $content, $var = false)
+    protected function printSnapshot(&$print, $content, $print_var = false, $var = null)
     {
         $print("\n");
 
@@ -139,7 +139,7 @@ final class Printer extends AbstractsPrinter
 
             $print($arrow)->textGreen();
             $print->push(Str::fill((string) $line, ' ', $lenght) . ' | ' . $code)->textDim();
-            if ($var !== false && $current) {
+            if ($print_var === true && $current) {
                 $print->push(Str::fill('', ' ', $lenght) . 'var : ')->textLightYellow();
 
                 $print = is_array($var)

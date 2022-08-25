@@ -130,7 +130,7 @@ class JsonPrinter extends Printer
     /**
      * {@inheritdoc}
      */
-    protected function printSnapshot(&$print, $content, $var = false)
+    protected function printSnapshot(&$print, $content, $print_var = false, $var = null)
     {
     }
 }
