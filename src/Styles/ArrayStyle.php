@@ -2,37 +2,11 @@
 
 namespace Here\Styles;
 
-use Here\Contracts\StyleInterface;
+use Here\Abstracts\VarPrinter;
 use System\Console\Style\Style;
 
-class ArrayStyle implements StyleInterface
+class ArrayStyle extends VarPrinter
 {
-    /** @var Style */
-    private $style;
-
-    /** @var array<int|string, mixed> */
-    private $var;
-
-    /**
-     * @param Style $style
-     */
-    public function __construct($style)
-    {
-        $this->style = $style;
-    }
-
-    /**
-     * @param array<int|string, mixed> $var
-     *
-     * @return self
-     */
-    public function ref($var)
-    {
-        $this->var = $var;
-
-        return $this;
-    }
-
     public function render(): Style
     {
         $var = json_encode($this->var, JSON_PRETTY_PRINT);
