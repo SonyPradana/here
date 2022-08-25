@@ -17,12 +17,15 @@ if (!function_exists('here')) {
     function here($group = '')
     {
         /** @var array<int, array<string|int, string|int>> */
-        $debug      = debug_backtrace();
-        $file       = (string) $debug[0]['file'];
-        $line       = (int) $debug[0]['line'];
-        $line_count = (int) Config::get('line');
+        $debug         = debug_backtrace();
+        $file          = (string) $debug[0]['file'];
+        $line          = (int) $debug[0]['line'];
+        $line_count    = (int) Config::get('line');
+        $print_var_end = (bool) Config::get('print_var_end', false);
 
-        return (new Here($group))->here($file, $line, $line_count);
+        return (new Here($group))
+            ->printVarEndOfCode($print_var_end)
+            ->here($file, $line, $line_count);
     }
 }
 
@@ -58,11 +61,15 @@ if (!function_exists('work')) {
     function work($var = false)
     {
         /** @var array<int, array<string|int, string|int>> */
-        $debug      = debug_backtrace();
-        $file       = (string) $debug[0]['file'];
-        $line       = (int) $debug[0]['line'];
-        $line_count = (int) Config::get('line');
+        $debug         = debug_backtrace();
+        $file          = (string) $debug[0]['file'];
+        $line          = (int) $debug[0]['line'];
+        $line_count    = (int) Config::get('line');
+        $print_var_end = (bool) Config::get('print_var_end', false);
 
-        (new Here())->here($file, $line, $line_count)->dump($var);
+        (new Here())
+            ->printVarEndOfCode($print_var_end)
+            ->here($file, $line, $line_count)
+            ->dump($var);
     }
 }

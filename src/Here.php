@@ -13,13 +13,19 @@ final class Here
      * Log of debug, containt.
      * - file
      * - line
-     * - content
      * - capture
      * - group.
      *
      * @var array<int, array<string, array<int, mixed>|int|string>>
      */
     private static $info = [];
+
+    /**
+     * Dump var in end of capture code.
+     *
+     * @var bool True if print in the end
+     */
+    private $EOL_var = false;
 
     /**
      * cached file.
@@ -109,10 +115,24 @@ final class Here
         ];
 
         if (php_sapi_name() === 'cli') {
-            return new Printer($info);
+            return (new Printer($info))->printVarEndOfCode($this->EOL_var);
         }
 
         return new JsonPrinter($info);
+    }
+
+    /**
+     * Dump var in end of capture code:.
+     *
+     * @param bool $EOL_var True if print in the end
+     *
+     * @return self
+     */
+    public function printVarEndOfCode($EOL_var)
+    {
+        $this->EOL_var = $EOL_var;
+
+        return $this;
     }
 
     /**

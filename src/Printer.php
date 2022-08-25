@@ -12,6 +12,27 @@ use System\Text\Str;
 
 final class Printer extends AbstractsPrinter
 {
+    /**
+     * Dump var in end of capture code.
+     *
+     * @var bool True if print in the end
+     */
+    private $EOL_var = false;
+
+    /**
+     * Dump var in end of capture code.
+     *
+     * @param bool $EOL_var True if print in the end
+     *
+     * @return self
+     */
+    public function printVarEndOfCode($EOL_var)
+    {
+        $this->EOL_var = $EOL_var;
+
+        return $this;
+    }
+
     /** {@inheritdoc} */
     protected function send($out)
     {
@@ -139,16 +160,39 @@ final class Printer extends AbstractsPrinter
 
             $print($arrow)->textGreen();
             $print->push(Str::fill((string) $line, ' ', $lenght) . ' | ' . $code)->textDim();
-            if ($print_var === true && $current) {
-                $print->push(Str::fill('', ' ', $lenght) . 'var : ')->textLightYellow();
-
-                $print = is_array($var)
-                    ? (new ArrayStyle($print))->ref($var)->render()
-                    : (new VarStyle($print))->ref($var)->render();
+            if ($current
+             && $print_var === true
+             && $this->EOL_var === false
+            ) {
+                $this->printVar($print, $var, $lenght)->out(false);
+                continue;
             }
             $print->out(false);
         }
 
+        if ($print_var === true && $this->EOL_var === true) {
+            $this->printVar($print, $var, $lenght)->out(false);
+        }
         $print('')->out(false);
+    }
+
+    /**
+     * helper, dump variable.
+     *
+     * @param Style                                      &$style
+     * @param string|array<int|string, mixed>|false|null $var
+     * @param int                                        $margin_left
+     *
+     * @return Style
+     */
+    private function printVar(&$style, $var, $margin_left)
+    {
+        $style->push(Str::fill('', ' ', $margin_left) . 'var : ')->textLightYellow();
+
+        $style = is_array($var)
+            ? (new ArrayStyle($style))->ref($var)->render()
+            : (new VarStyle($style))->ref($var)->render();
+
+        return $style;
     }
 }

@@ -32,10 +32,10 @@ final class Config
     /**
      * Get config by key.
      *
-     * @param string          $key
-     * @param string|int|null $default
+     * @param string               $key
+     * @param string|int|bool|null $default
      *
-     * @return string|int|null
+     * @return string|int|bool|null
      */
     public static function get($key, $default = null)
     {
