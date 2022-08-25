@@ -17,7 +17,7 @@ class JsonPrinter extends Printer
     }
 
     /** {@inheritdoc} */
-    public function dump($var = false)
+    public function dump(...$var)
     {
         /** @var string */
         $file     = $this->content['file'];
@@ -130,7 +130,7 @@ class JsonPrinter extends Printer
     /**
      * {@inheritdoc}
      */
-    protected function printSnapshot(&$print, $content, $print_var = false, $var = null)
+    protected function printSnapshot(&$print, $content, ...$var)
     {
     }
 }

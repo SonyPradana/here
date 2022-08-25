@@ -58,7 +58,7 @@ if (!function_exists('work')) {
      *
      * @return void
      */
-    function work($var = false)
+    function work(...$var)
     {
         /** @var array<int, array<string|int, string|int>> */
         $debug         = debug_backtrace();
@@ -70,6 +70,6 @@ if (!function_exists('work')) {
         (new Here())
             ->printVarEndOfCode($print_var_end)
             ->here($file, $line, $line_count)
-            ->dump($var);
+            ->dump(...$var);
     }
 }

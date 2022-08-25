@@ -58,10 +58,9 @@ abstract class Printer implements DumbInterface
      *
      * @param Style                                       $print
      * @param array<string, array<int, mixed>|int|string> $content
-     * @param bool                                        $print_var
      * @param string|array<int|string, mixed>|false       $var
      *
      * @return void
      */
-    abstract protected function printSnapshot(&$print, $content, $print_var = false, $var = null);
+    abstract protected function printSnapshot(&$print, $content, ...$var);
 }

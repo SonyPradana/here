@@ -50,14 +50,14 @@ final class Printer extends AbstractsPrinter
     }
 
     /** {@inheritdoc} */
-    public function dump($var = false)
+    public function dump(...$var)
     {
         $print = new Style('');
 
         // print header info
         $this->printInfo($print, $this->content);
         // print content
-        $this->printSnapshot($print, $this->content, true, $var);
+        $this->printSnapshot($print, $this->content, ...$var);
 
         $this->send($print->__toString());
     }
@@ -141,9 +141,15 @@ final class Printer extends AbstractsPrinter
     }
 
     /** {@inheritdoc} */
-    protected function printSnapshot(&$print, $content, $print_var = false, $var = null)
+    protected function printSnapshot(&$print, $content, ...$var)
     {
         $print("\n");
+
+        $count   = count($var);
+        $has_var = $count > 0;
+        if ($count === 1) {
+            $var = $var[0];
+        }
 
         $max_line = ((int) $content['line']) + 3;
         $lenght   = \strlen((string) $max_line);
@@ -161,7 +167,7 @@ final class Printer extends AbstractsPrinter
             $print($arrow)->textGreen();
             $print->push(Str::fill((string) $line, ' ', $lenght) . ' | ' . $code)->textDim();
             if ($current
-             && $print_var === true
+             && $has_var === true
              && $this->EOL_var === false
             ) {
                 $this->printVar($print, $var, $lenght)->out(false);
@@ -170,7 +176,7 @@ final class Printer extends AbstractsPrinter
             $print->out(false);
         }
 
-        if ($print_var === true && $this->EOL_var === true) {
+        if ($has_var === true && $this->EOL_var === true) {
             $this->printVar($print, $var, $lenght)->out(false);
         }
         $print('')->out(false);

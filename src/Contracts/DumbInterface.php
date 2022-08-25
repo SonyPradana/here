@@ -18,7 +18,7 @@ interface DumbInterface
      *
      * @return void
      */
-    public function dump($var = false);
+    public function dump(...$var);
 
     /**
      * dump all registered 'here'.
