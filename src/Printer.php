@@ -106,16 +106,16 @@ final class Printer extends AbstractsPrinter
     {
         $print("\n");
 
-        $print->push(' work ')->textDarkGray()->bgGreen()->reverse();
+        $print->push(' work ')->textDarkGray()->bgGreen();
         if ($with_counter !== false) {
             $print->push(' ' . $with_counter . 'x')->textDim();
         }
         $print->push(' - ')->textDim();
         // @phpstan-ignore-next-line
-        $print->push('`' . $content['file'] . '`')->text_yellow_500();
+        $print->push('`' . $content['file'] . '`')->text_yellow_400();
         $print->push(':')->textDim();
         // @phpstan-ignore-next-line
-        $print->push('' . $content['line'])->text_blue_500();
+        $print->push('' . $content['line'])->text_blue_400();
         $print->out();
     }
 
