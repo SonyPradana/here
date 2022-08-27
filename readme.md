@@ -20,6 +20,7 @@ Put `here()` anywhere to your code
 - `here()->countAll()`, count all group.
 
 ### Other
+- `here()->dumpIf()`, dump current line (if condition true).
 - `here()->info()`, dump current line (without code snapshot).
 - `track()`, print debug backtrace information.
 - `work()`, short hand for `here()->dump()`.

@@ -63,4 +63,23 @@ abstract class Printer implements DumbInterface
      * @return void
      */
     abstract protected function printSnapshot(&$print, $content, ...$var);
+
+    /**
+     * Dump if condition true.
+     *
+     * @param \Closure|bool                         $condition
+     * @param string|array<int|string, mixed>|false $var
+     *
+     * @return void
+     */
+    public function dumpIf($condition, ...$var)
+    {
+        $condition = is_callable($condition)
+            ? call_user_func($condition)
+            : $condition;
+
+        if ($condition === true) {
+            $this->dump(...$var);
+        }
+    }
 }
