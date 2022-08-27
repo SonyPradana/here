@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Here\Styles;
 
 use Here\Abstracts\VarPrinter;
