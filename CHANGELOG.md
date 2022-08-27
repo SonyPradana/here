@@ -5,3 +5,39 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+
+## [0.0.8] - 2022-08-27
+### Added
+- Added `Here::dumpIf()` dump snapshot if condition given as return true.
+
+## [0.0.7] - 2022-08-25
+### Fixed 
+- Fixed `Here::dump()` variable always printed.
+
+## [0.0.6] - 2022-08-25
+### Added
+- Added configuration for print var `Here::dump()` end of line capture code.
+
+## [0.0.5] - 2022-08-25
+### Added
+- Added helper `work` shorthand for `here()->dump()`.
+- Styling var output in `Here::dump()`.
+
+## [0.0.4] - 2022-08-22
+### Added
+- Added config using file (`./here.config.json`).
+
+### Changed
+- `Here::count()` group by group name and file/line.
+
+## [0.0.3] - 2022-08-13
+### Added
+- Added `JsonPrinter` send as json/array.
+
+## [0.0.2] - 2022-08-13
+### Changed
+- Load file from cached file.
+
+## [0.0.1] - 2022-08-08
+### Added
+- first commit.
