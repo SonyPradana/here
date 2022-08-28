@@ -125,7 +125,7 @@ final class Printer extends AbstractsPrinter
     /** {@inheritdoc} */
     protected function printInfo(&$print, $content, $with_counter = false)
     {
-        $print("\n");
+        $print->new_lines();
 
         $print->push(' work ')->textDarkGray()->bgGreen();
         if ($with_counter !== false) {
@@ -137,13 +137,12 @@ final class Printer extends AbstractsPrinter
         $print->push(':')->textDim();
         // @phpstan-ignore-next-line
         $print->push('' . $content['line'])->text_blue_400();
-        $print->out();
     }
 
     /** {@inheritdoc} */
     protected function printSnapshot(&$print, $content, ...$var)
     {
-        $print("\n");
+        $print->new_lines();
 
         $count   = count($var);
         $has_var = $count > 0;
@@ -164,22 +163,20 @@ final class Printer extends AbstractsPrinter
             $current = $line === $content['line'];
             $arrow   = $current ? '-> ' : '   ';
 
-            $print($arrow)->textGreen();
+            $print->push($arrow)->textGreen();
             $print->push(Str::fill((string) $line, ' ', $lenght) . ' | ' . $code)->textDim();
             if ($current
              && $has_var === true
              && $this->EOL_var === false
             ) {
-                $this->printVar($print, $var, $lenght)->out(false);
+                $this->printVar($print, $var, $lenght);
                 continue;
             }
-            $print->out(false);
         }
 
         if ($has_var === true && $this->EOL_var === true) {
-            $this->printVar($print, $var, $lenght)->out(false);
+            $this->printVar($print, $var, $lenght);
         }
-        $print('')->out(false);
     }
 
     /**
