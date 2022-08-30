@@ -1,4 +1,6 @@
 {
     "line": 2,
-    "print_var_end": false
+    "print_var_end": false,
+    "socket.enable": false,
+    "socket.uri": "127.0.0.1:8080"
 }

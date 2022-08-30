@@ -1,0 +1,24 @@
+#!/usr/bin/env php
+<?php
+
+use Here\Commands\ServeCommand;
+
+(static function () {
+  // Used when Pest is required using composer.
+  $vendorPath = dirname(__DIR__, 4) . '/vendor/autoload.php';
+
+  // Used when Pest maintainers are running Pest tests.
+  $localPath = dirname(__DIR__) . '/vendor/autoload.php';
+
+  if (file_exists($vendorPath)) {
+      include_once $vendorPath;
+      $autoloadPath = $vendorPath;
+  } else {
+      include_once $localPath;
+      $autoloadPath = $localPath;
+  }
+
+  $argv = $_SERVER['argv'];
+
+  return (new ServeCommand($argv))->main();
+})();
