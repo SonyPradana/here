@@ -6,7 +6,7 @@ namespace Here;
 
 final class Config
 {
-    /** @var array<string, int|string> */
+    /** @var array<string, int|string|bool> */
     private static $configs = [];
 
     /**
@@ -31,6 +31,13 @@ final class Config
         self::$configs = json_decode($config, true);
     }
 
+    /**
+     * Save current config to config file.
+     *
+     * @param array<string, int|string|bool> $configs
+     *
+     * @return void
+     */
     private static function save($configs)
     {
         $default_config_file = dirname(__DIR__, 1) . '/here.config.json';
@@ -62,6 +69,14 @@ final class Config
         return self::$configs[$key] ?? $default;
     }
 
+    /**
+     * Set/create array item of config.
+     *
+     * @param string          $key
+     * @param int|string|bool $val
+     *
+     * @return void
+     */
     public static function set($key, $val)
     {
         self::$configs[$key] = $val;

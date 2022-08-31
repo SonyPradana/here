@@ -117,7 +117,7 @@ class JsonPrinter extends Printer
      */
     protected function send($out)
     {
-        $uri = Config::get('socket.uri', '127.0.0.1:8080');
+        $uri = (string) Config::get('socket.uri', '127.0.0.1:8080');
         $out = $out === false ? '' : $out;
 
         $connector = new \React\Socket\Connector();
