@@ -13,8 +13,8 @@ final class ConfigTest extends TestCase
         Config::load();
 
         $this->assertEquals([
-            'line'          => 2,
-            'print_var_end' => false,
+            'print.line'    => 2,
+            'print.var.end' => false,
         ], Config::all());
 
         Config::flush();
@@ -25,7 +25,7 @@ final class ConfigTest extends TestCase
     {
         Config::load();
 
-        $this->assertEquals(2, Config::get('line'));
+        $this->assertEquals(2, Config::get('print.line'));
 
         Config::flush();
     }
