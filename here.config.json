@@ -1,4 +1,4 @@
 {
-    "line": 2,
-    "print_var_end": false
+    "print.line": 2,
+    "print.var.end": false
 }
