@@ -47,4 +47,24 @@ final class Config
 
         return self::$configs[$key] ?? $default;
     }
+
+    /**
+     * Flush cached config.
+     *
+     * @return void
+     */
+    public static function flush()
+    {
+        self::$configs = [];
+    }
+
+    /**
+     * Get cached config.
+     *
+     * @return array<string, int|string>
+     */
+    public static function all()
+    {
+        return self::$configs;
+    }
 }
