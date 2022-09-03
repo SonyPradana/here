@@ -20,8 +20,8 @@ if (!function_exists('here')) {
         $debug         = debug_backtrace();
         $file          = (string) $debug[0]['file'];
         $line          = (int) $debug[0]['line'];
-        $line_count    = (int) Config::get('line');
-        $print_var_end = (bool) Config::get('print_var_end', false);
+        $line_count    = (int) Config::get('print.line');
+        $print_var_end = (bool) Config::get('print.var.end', false);
 
         return (new Here($group))
             ->printVarEndOfCode($print_var_end)
@@ -64,8 +64,8 @@ if (!function_exists('work')) {
         $debug         = debug_backtrace();
         $file          = (string) $debug[0]['file'];
         $line          = (int) $debug[0]['line'];
-        $line_count    = (int) Config::get('line');
-        $print_var_end = (bool) Config::get('print_var_end', false);
+        $line_count    = (int) Config::get('print.line');
+        $print_var_end = (bool) Config::get('print.var.end', false);
 
         (new Here())
             ->printVarEndOfCode($print_var_end)
