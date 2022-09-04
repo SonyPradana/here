@@ -118,6 +118,10 @@ class JsonPrinter extends Printer
      */
     protected function send($out)
     {
+        if ($this->mark_test) {
+            return;
+        }
+
         $out = $out === false ? '' : $out;
         (new Style($out))->out(false);
     }

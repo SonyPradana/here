@@ -36,6 +36,10 @@ final class Printer extends AbstractsPrinter
     /** {@inheritdoc} */
     protected function send($out)
     {
+        if (self::$mark_test) {
+            return;
+        }
+
         $out = $out === false ? '' : $out;
         (new Style($out))->out(false);
     }
