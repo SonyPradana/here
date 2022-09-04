@@ -21,6 +21,17 @@ final class FeatureTest extends TestCase
     }
 
     /** @test */
+    public function itCanRenderInfo()
+    {
+        require_once dirname(__DIR__, 1) . '/assets/here-info.php';
+
+        $dump = Here::getHere();
+
+        $this->assertEquals(6, $dump[0]['line']);
+        $this->assertEquals([4, 5, 6, 7, 8], $dump[0]['capture']);
+    }
+
+    /** @test */
     public function itCanRenderDump()
     {
         require_once dirname(__DIR__, 1) . '/assets/here-dump.php';
