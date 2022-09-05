@@ -2,11 +2,13 @@
 <phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:noNamespaceSchemaLocation="./vendor/phpunit/phpunit/phpunit.xsd"
          colors="true"
-         testdox="true"
 >
     <testsuites>
+        <testsuite name="feature">
+            <directory suffix="Test.php">./tests/Feat</directory>
+        </testsuite>
         <testsuite name="unit">
-            <directory suffix="Test.php">./tests</directory>
+            <directory suffix="Test.php">./tests/Unit</directory>
         </testsuite>
     </testsuites>
     <coverage processUncoveredFiles="true">
