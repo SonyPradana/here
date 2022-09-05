@@ -47,7 +47,7 @@ final class Config
             $default_config_file = $user_config_file;
         }
 
-        $config = json_encode($configs, JSON_PRETTY_PRINT);
+        $config = json_encode($configs, JSON_PRETTY_PRINT) . PHP_EOL;
 
         file_put_contents($default_config_file, $config);
     }
