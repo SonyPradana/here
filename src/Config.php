@@ -83,4 +83,24 @@ final class Config
 
         self::save(self::$configs);
     }
+
+    /**
+     * Flush cached config.
+     *
+     * @return void
+     */
+    public static function flush()
+    {
+        self::$configs = [];
+    }
+
+    /**
+     * Get cached config.
+     *
+     * @return array<string, int|string|bool>
+     */
+    public static function all()
+    {
+        return self::$configs;
+    }
 }

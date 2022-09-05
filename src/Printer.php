@@ -36,6 +36,10 @@ final class Printer extends AbstractsPrinter
     /** {@inheritdoc} */
     protected function send($out)
     {
+        if (self::$mark_test) {
+            return;
+        }
+
         $use_socket = Config::get('socket.enable', false);
         $uri        = (string) Config::get('socket.uri', '127.0.0.1:8080');
         $out        = $out === false ? '' : $out;

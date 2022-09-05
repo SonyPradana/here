@@ -24,6 +24,13 @@ abstract class Printer implements DumbInterface
     protected $print;
 
     /**
+     * Mark action as test.
+     *
+     * @var bool If true function send not perfome anythink
+     */
+    protected static $mark_test = false;
+
+    /**
      * Create new instance with content.
      *
      * @param array<string, array<int, mixed>|int|string> $content
@@ -83,5 +90,18 @@ abstract class Printer implements DumbInterface
         if ($condition === true) {
             $this->dump(...$var);
         }
+    }
+
+    /**
+     * Mark class as testing,
+     * so send method does't perfome anythink.
+     *
+     * @param bool $mark_as_test
+     *
+     * @return void
+     */
+    public static function markAsTest($mark_as_test = true)
+    {
+        self::$mark_test = $mark_as_test;
     }
 }

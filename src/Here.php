@@ -64,6 +64,29 @@ final class Here
     }
 
     /**
+     * Register new info.
+     *
+     * @param array<string, array<int, mixed>|int|string> $info
+     *
+     * @return array<string, array<int, mixed>|int|string>
+     */
+    public static function register($info)
+    {
+        return self::$info[] = $info;
+    }
+
+    /**
+     * Flush or clear cached info and file conten.
+     *
+     * @return void
+     */
+    public static function flush()
+    {
+        self::$info        = [];
+        self::$cached_file = [];
+    }
+
+    /**
      * Get content (file) from cache (if exist).
      *
      * @param string $file_name File name and location
@@ -107,12 +130,12 @@ final class Here
     {
         $capture = self::capture($line, $line_limit);
 
-        $info = self::$info[] = [
+        $info = self::register([
             'file'    => $file,
             'line'    => $line,
             'capture' => $capture,
             'group'   => $this->group,
-        ];
+        ]);
 
         if (php_sapi_name() === 'cli') {
             return (new Printer($info))->printVarEndOfCode($this->EOL_var);
