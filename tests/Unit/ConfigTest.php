@@ -46,6 +46,7 @@ final class ConfigTest extends TestCase
             'print.var.end' => false,
             'socket.enable' => false,
             'socket.uri'    => '127.0.0.1:8080',
+
         ], Config::all());
 
         Config::flush();
@@ -104,6 +105,5 @@ final class ConfigTest extends TestCase
         Config::set('print.test', 5);
         $this->assertEquals(5, Config::get('print.test', 0));
 
-        Config::flush();
-    }
+        C
 }
