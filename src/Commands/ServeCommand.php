@@ -11,6 +11,9 @@ use function System\Console\style;
 
 use System\Console\Style\Style;
 
+/**
+ * @property bool $init
+ */
 final class ServeCommand extends Command
 {
     public function main()
@@ -34,6 +37,19 @@ final class ServeCommand extends Command
                     ->push($status_text)->out();
 
                 Config::set('socket.enable', $status);
+                break;
+
+            case 'config':
+                if ($this->init) {
+                    Config::load();
+                    $config_file = dirname(__DIR__, 4) . '/here.config.json';
+                    $config      = json_encode(Config::all(), JSON_PRETTY_PRINT);
+                    if (file_put_contents($config_file, $config) !== false) {
+                        style('Success create config file ' . $config_file)
+                            ->textYellow()
+                            ->out();
+                    }
+                }
                 break;
 
             default:
