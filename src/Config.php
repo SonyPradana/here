@@ -14,12 +14,14 @@ final class Config
      * if config not found in root project,
      * it will load config file from package folder.
      *
+     * @param string|null $config_file
+     *
      * @return void
      */
-    public static function load()
+    public static function load($config_file = null)
     {
         $default_config_file = dirname(__DIR__, 1) . '/here.config.json';
-        $user_config_file    = dirname(__DIR__, 3) . '/here.config.json';
+        $user_config_file    = $config_file ?? dirname(__DIR__, 3) . '/here.config.json';
 
         if (file_exists($user_config_file)) {
             $default_config_file = $user_config_file;

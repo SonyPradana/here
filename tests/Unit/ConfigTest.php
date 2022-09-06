@@ -37,6 +37,21 @@ final class ConfigTest extends TestCase
     }
 
     /** @test */
+    public function itCanLoadConfigUseFileConfig()
+    {
+        Config::load(dirname(__DIR__, 2) . '/here.config.json');
+
+        $this->assertEquals([
+            'print.line'    => 2,
+            'print.var.end' => false,
+            'socket.enable' => false,
+            'socket.uri'    => '127.0.0.1:8080',
+        ], Config::all());
+
+        Config::flush();
+    }
+
+    /** @test */
     public function itCanGetConfigWithExistConfig()
     {
         Config::load();
