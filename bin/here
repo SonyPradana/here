@@ -1,0 +1,15 @@
+#!/usr/bin/env php
+<?php
+
+use Here\Commands\ServeCommand;
+
+(static function () {
+  $vendorPath = dirname(__DIR__, 4) . '/vendor/autoload.php';
+  $localPath  = dirname(__DIR__) . '/vendor/autoload.php';
+
+  include_once file_exists($vendorPath) ? $vendorPath : $localPath;
+
+  $argv = $_SERVER['argv'];
+
+  return (new ServeCommand($argv))->main();
+})();

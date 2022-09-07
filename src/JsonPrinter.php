@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Here;
 
 use Here\Abstracts\Printer;
-use System\Console\Style\Style;
 
 class JsonPrinter extends Printer
 {
@@ -122,8 +121,16 @@ class JsonPrinter extends Printer
             return;
         }
 
+        $uri = (string) Config::get('socket.uri', '127.0.0.1:8080');
         $out = $out === false ? '' : $out;
-        (new Style($out))->out(false);
+
+        $connector = new \React\Socket\Connector();
+
+        $connector->connect($uri)->then(function (\React\Socket\ConnectionInterface $connection) use ($out) {
+            $connection->end($out);
+        }, function (\Exception $e) {
+            echo 'Error: ' . $e->getMessage() . PHP_EOL;
+        });
     }
 
     /**

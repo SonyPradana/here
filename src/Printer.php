@@ -40,8 +40,23 @@ final class Printer extends AbstractsPrinter
             return;
         }
 
-        $out = $out === false ? '' : $out;
-        (new Style($out))->out(false);
+        $use_socket = Config::get('socket.enable', false);
+        $uri        = (string) Config::get('socket.uri', '127.0.0.1:8080');
+        $out        = $out === false ? '' : $out;
+
+        if ($use_socket === false) {
+            echo $out;
+
+            return;
+        }
+
+        $connector = new \React\Socket\Connector();
+
+        $connector->connect($uri)->then(function (\React\Socket\ConnectionInterface $connection) use ($out) {
+            $connection->end($out);
+        }, function (\Exception $e) {
+            echo 'Error: ' . $e->getMessage() . PHP_EOL;
+        });
     }
 
     /** {@inheritdoc} */

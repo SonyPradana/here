@@ -6,7 +6,7 @@ namespace Here;
 
 final class Config
 {
-    /** @var array<string, int|string> */
+    /** @var array<string, int|string|bool> */
     private static $configs = [];
 
     /**
@@ -14,12 +14,14 @@ final class Config
      * if config not found in root project,
      * it will load config file from package folder.
      *
+     * @param string|null $config_file
+     *
      * @return void
      */
-    public static function load()
+    public static function load($config_file = null)
     {
         $default_config_file = dirname(__DIR__, 1) . '/here.config.json';
-        $user_config_file    = dirname(__DIR__, 3) . '/here.config.json';
+        $user_config_file    = $config_file ?? dirname(__DIR__, 3) . '/here.config.json';
 
         if (file_exists($user_config_file)) {
             $default_config_file = $user_config_file;
@@ -29,6 +31,27 @@ final class Config
         $config        = $config === false ? '{}' : $config;
         // @phpstan-ignore-next-line
         self::$configs = json_decode($config, true);
+    }
+
+    /**
+     * Save current config to config file.
+     *
+     * @param array<string, int|string|bool> $configs
+     *
+     * @return void
+     */
+    private static function save($configs)
+    {
+        $default_config_file = dirname(__DIR__, 1) . '/here.config.json';
+        $user_config_file    = dirname(__DIR__, 3) . '/here.config.json';
+
+        if (file_exists($user_config_file)) {
+            $default_config_file = $user_config_file;
+        }
+
+        $config = json_encode($configs, JSON_PRETTY_PRINT) . PHP_EOL;
+
+        file_put_contents($default_config_file, $config);
     }
 
     /**
@@ -49,6 +72,21 @@ final class Config
     }
 
     /**
+     * Set/create array item of config.
+     *
+     * @param string          $key
+     * @param int|string|bool $val
+     *
+     * @return void
+     */
+    public static function set($key, $val)
+    {
+        self::$configs[$key] = $val;
+
+        self::save(self::$configs);
+    }
+
+    /**
      * Flush cached config.
      *
      * @return void
@@ -61,7 +99,7 @@ final class Config
     /**
      * Get cached config.
      *
-     * @return array<string, int|string>
+     * @return array<string, int|string|bool>
      */
     public static function all()
     {
