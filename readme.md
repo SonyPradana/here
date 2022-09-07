@@ -26,7 +26,7 @@ Put `here()` anywhere to your code
 - `work()`, short hand for `here()->dump()`.
 
 # Todo
-- [ ] Socket reporting.
+- [X] Socket reporting.
 - [ ] Socket reporting - browser view.
 - [X] `here()->count()` group by filename.
 
