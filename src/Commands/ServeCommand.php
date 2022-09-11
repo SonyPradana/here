@@ -10,46 +10,26 @@ use System\Console\Command;
 use function System\Console\style;
 
 use System\Console\Style\Style;
+use System\Console\Traits\PrintHelpTrait;
 
-/**
- * @property bool $init
- */
 final class ServeCommand extends Command
 {
+    use PrintHelpTrait;
+
     public function main()
     {
+        Config::load();
         /** @var string */
         $option =  $this->CMD;
         $option = strtolower($option);
 
         switch ($option) {
             case 'serve':
-                /** @var string */
-                $uri = $this->OPTION[0] ?? Config::get('socket.uri', '127.0.0.1:8080');
-                $this->serve($uri);
-                break;
-
-            case 'socket':
-                $status      = Config::get('socket.enable');
-                $status      = !$status;
-                $status_text = $status ? 'enable' : 'disable';
-                style('socket status:')->textGreen()
-                    ->push($status_text)->out();
-
-                Config::set('socket.enable', $status);
+                $this->serve();
                 break;
 
             case 'config':
-                if ($this->init) {
-                    Config::load();
-                    $config_file = dirname(__DIR__, 4) . '/here.config.json';
-                    $config      = json_encode(Config::all(), JSON_PRETTY_PRINT);
-                    if (file_put_contents($config_file, $config) !== false) {
-                        style('Success create config file ' . $config_file)
-                            ->textYellow()
-                            ->out();
-                    }
-                }
+                $this->config();
                 break;
 
             default:
@@ -61,12 +41,12 @@ final class ServeCommand extends Command
     /**
      * Serve socket.
      *
-     * @param string $uri
-     *
      * @return void
      */
-    public function serve($uri)
+    public function serve()
     {
+        /** @var string */
+        $uri = $this->OPTION[0] ?? Config::get('socket.uri', '127.0.0.1:8080');
         // header information
         style('socket server')->textGreen()->new_lines()->out();
         style('info')->textWhite()->bgBlue()->push(' ')
@@ -90,27 +70,92 @@ final class ServeCommand extends Command
      */
     public function help()
     {
-        return (new Style('Here CLI'))
+        $this->command_describes = [
+            'serve'     => 'Start socket server, default - ' . Config::get('socket.uri', '127.0.0.1:8080'),
+            'config'    => 'Set config to config file',
+            'help'      => 'Show help command information',
+        ];
+
+        $this->option_describes = [
+            '--init'    => 'Config, create new Here configuration in root application',
+            '--line'    => 'Config, set default printer up/down line count',
+            '--var-end' => 'Config, set default printer up/down line count',
+            '--socket'  => 'Config, enable/disable socket reporting',
+            '--uri'     => 'Config, set default socket uri',
+        ];
+
+        // @phpstan-ignore-next-line
+        $this->command_relation = [
+            'serve'     => ['[uri:port]'],
+            'config'    => ['[option]'],
+        ];
+
+        $this->print_help = [
+            'margin-left'         => 4,
+            'column-1-min-lenght' => 8,
+        ];
+
+        $print = new Style('Here CLI');
+
+        $print
             ->textGreen()
             ->push(' command line application')->textBlue()
-            ->new_lines(2)
+            ->new_lines(2);
 
-            ->push('command:')->new_lines()
-            ->push("\t")
-            ->push('serve')->textGreen()->push(' [option]')->textDim()
-            ->tabs(2)
-            ->push('Start socket server')
-            ->new_lines()
+        $print->push('command:')->new_lines();
+        $print = $this->printCommands($print)->new_lines();
 
-            ->push("\t")
-            ->push('socket')->textGreen()
-            ->tabs(3)
-            ->push('Togle enable/disable socket reporting')
-            ->new_lines()
+        $print->push('option:')->new_lines();
+        $print = $this->printOptions($print);
 
-            ->push("\t")->push('help')->textGreen()
-            ->tabs(3)
-            ->push('Show help command information')
-            ->new_lines();
+        return $print;
+    }
+
+    /**
+     * Config.
+     *
+     * @return void
+     */
+    public function config()
+    {
+        // init config
+        if ($this->option('init')) {
+            $config_file = dirname(__DIR__, 4) . '/here.config.json';
+            $config      = json_encode(Config::all(), JSON_PRETTY_PRINT);
+            if (file_put_contents($config_file, $config) !== false) {
+                style('Success create config file ' . $config_file)
+                    ->textYellow()
+                    ->out();
+            }
+        }
+
+        // set socket.uri
+        $socket = $this->option('socket');
+        if ($socket !== null) {
+            if (is_string($socket)) {
+                $socket = strtolower($socket) === 'true' ? true : false;
+            }
+            Config::set('socket.enable', $socket);
+        }
+
+        // set socket.enable
+        $uri = $this->option('uri', '127.0.0.1:8080');
+        if ($uri !== true) {
+            // @phpstan-ignore-next-line
+            Config::set('socket.uri', $uri);
+        }
+
+        // set print.line
+        // @phpstan-ignore-next-line
+        $line = $this->option('line', 2);
+        if ($line !== true) {
+            Config::set('print.line', (int) $line);
+        }
+
+        // set print.line
+        // @phpstan-ignore-next-line
+        $var_end = $this->option('varend', false);
+        // @phpstan-ignore-next-line
+        Config::set('print.var.end', $var_end);
     }
 }
