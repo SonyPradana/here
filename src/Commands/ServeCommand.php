@@ -119,7 +119,7 @@ final class ServeCommand extends Command
     {
         // init config
         if ($this->option('init')) {
-            $config_file = dirname(__DIR__, 4) . '/here.config.json';
+            $config_file = dirname(__DIR__, 5) . '/here.config.json';
             $config      = json_encode(Config::all(), JSON_PRETTY_PRINT);
             if (file_put_contents($config_file, $config) !== false) {
                 style('Success create config file ' . $config_file)
