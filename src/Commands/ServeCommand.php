@@ -60,7 +60,7 @@ final class ServeCommand extends Command
             $connection->on('data', function ($chunk) {
                 style(now()->__toString())->textDim()->underline()
                     ->push($chunk)
-                    ->out(false);
+                    ->out();
             });
         });
     }
