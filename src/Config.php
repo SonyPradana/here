@@ -6,7 +6,7 @@ namespace Here;
 
 final class Config
 {
-    /** @var array<string, int|string|bool> */
+    /** @var array<string, string|bool|int|null> */
     private static $configs = [];
 
     /**
@@ -36,7 +36,7 @@ final class Config
     /**
      * Save current config to config file.
      *
-     * @param array<string, int|string|bool> $configs
+     * @param array<string, string|bool|int|null> $configs
      *
      * @return void
      */
@@ -74,8 +74,8 @@ final class Config
     /**
      * Set/create array item of config.
      *
-     * @param string          $key
-     * @param int|string|bool $val
+     * @param string               $key
+     * @param string|bool|int|null $val
      *
      * @return void
      */
@@ -99,7 +99,7 @@ final class Config
     /**
      * Get cached config.
      *
-     * @return array<string, int|string|bool>
+     * @return array<string, string|bool|int|null>
      */
     public static function all()
     {

@@ -84,7 +84,6 @@ final class ServeCommand extends Command
             '--uri'     => 'Config, set default socket uri',
         ];
 
-        // @phpstan-ignore-next-line
         $this->command_relation = [
             'serve'     => ['[uri:port]'],
             'config'    => ['[option]'],
@@ -141,21 +140,17 @@ final class ServeCommand extends Command
         // set socket.enable
         $uri = $this->option('uri', '127.0.0.1:8080');
         if ($uri !== true) {
-            // @phpstan-ignore-next-line
             Config::set('socket.uri', $uri);
         }
 
         // set print.line
-        // @phpstan-ignore-next-line
         $line = $this->option('line', 2);
         if ($line !== true) {
             Config::set('print.line', (int) $line);
         }
 
         // set print.line
-        // @phpstan-ignore-next-line
         $var_end = $this->option('varend', false);
-        // @phpstan-ignore-next-line
         Config::set('print.var.end', $var_end);
     }
 }
