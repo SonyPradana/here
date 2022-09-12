@@ -23,7 +23,7 @@
     ],
     "require": {
         "php": "^7.4 || ^8.0",
-        "sonypradana/php-library": "^0.10.5",
+        "sonypradana/php-library": "^0.11",
         "react/socket": "^1.12"
     },
     "require-dev": {
