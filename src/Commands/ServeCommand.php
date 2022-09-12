@@ -84,7 +84,6 @@ final class ServeCommand extends Command
             '--uri'     => 'Config, set default socket uri',
         ];
 
-        // @phpstan-ignore-next-line
         $this->command_relation = [
             'serve'     => ['[uri:port]'],
             'config'    => ['[option]'],
