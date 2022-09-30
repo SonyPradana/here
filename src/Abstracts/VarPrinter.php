@@ -35,4 +35,37 @@ abstract class VarPrinter
     }
 
     abstract public function render(): Style;
+
+    /**
+     * Sanitize var to save string printed.
+     *
+     * @param mixed $var Bool var
+     *
+     * @return string
+     */
+    public function sanitize($var)
+    {
+        $encode = json_encode($var, JSON_PRETTY_PRINT);
+
+        if ($encode === false) {
+            throw new \Exception('Variable cant be ptrint');
+        }
+
+        return $encode;
+    }
+
+    /**
+     * Get lenght of var.
+     *
+     * @param mixed $var Bool var
+     *
+     * @return int
+     */
+    public function lenght($var)
+    {
+        /** @var string */
+        $str = $var;
+
+        return \strlen($str);
+    }
 }

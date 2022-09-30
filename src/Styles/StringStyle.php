@@ -11,12 +11,12 @@ class StringStyle extends VarPrinter
 {
     public function render(): Style
     {
-        /** @var string */
-        $var = $this->var;
+        $lenght = $this->lenght($this->var);
+        $var    = $this->sanitize($this->var);
         $this->style
-            ->push('"' . $var . '"')->textYellow()
+            ->push($var)->textYellow()
             ->push(' (')
-            ->push('string:' . strlen($var))->textLightGreen()
+            ->push('string:' . $lenght)->textLightGreen()
             ->push(')')
             ->new_lines();
 

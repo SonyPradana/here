@@ -11,8 +11,7 @@ class DefaultStyle extends VarPrinter
 {
     public function render(): Style
     {
-        /** @var string */
-        $var = $this->var;
+        $var = $this->sanitize($this->var);
         $this->style
             ->push($var)->textGreen()
             ->push(' (')

@@ -11,12 +11,12 @@ class NumberStyle extends VarPrinter
 {
     public function render(): Style
     {
-        /** @var string|int $var */
-        $var = $this->var;
+        $lenght = $this->lenght($this->var);
+        $var    = $this->sanitize($this->var);
         $this->style
             ->push($var)->textBlue()
             ->push(' (')
-            ->push(gettype($var) . ':' . strlen((string) $var))->textLightGreen()
+            ->push(gettype($this->var) . ':' . $lenght)->textLightGreen()
             ->push(')')
             ->new_lines();
 
