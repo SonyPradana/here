@@ -16,8 +16,7 @@ class BooleanStyle extends VarPrinter
             ->push($var)->textYellow()
             ->push(' (')
             ->push('bool')->textLightGreen()
-            ->push(')')
-            ->new_lines();
+            ->push(')');
 
         return $this->style;
     }

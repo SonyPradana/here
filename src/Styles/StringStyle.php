@@ -17,8 +17,7 @@ class StringStyle extends VarPrinter
             ->push($var)->textYellow()
             ->push(' (')
             ->push('string:' . $lenght)->textLightGreen()
-            ->push(')')
-            ->new_lines();
+            ->push(')');
 
         return $this->style;
     }

@@ -17,8 +17,7 @@ class NumberStyle extends VarPrinter
             ->push($var)->textBlue()
             ->push(' (')
             ->push(gettype($this->var))->textLightGreen()
-            ->push(')')
-            ->new_lines();
+            ->push(')');
 
         return $this->style;
     }

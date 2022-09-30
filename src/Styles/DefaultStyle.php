@@ -13,8 +13,7 @@ class DefaultStyle extends VarPrinter
     {
         $var = $this->sanitize($this->var);
         $this->style
-            ->push($var)->textGreen()
-            ->new_lines();
+            ->push($var)->textGreen();
 
         return $this->style;
     }

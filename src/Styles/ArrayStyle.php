@@ -15,7 +15,6 @@ class ArrayStyle extends VarPrinter
 
         return $this->style
             ->new_lines()
-            ->push($var)->textGreen()
-            ->new_lines();
+            ->push($var)->textGreen();
     }
 }
