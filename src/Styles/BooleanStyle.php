@@ -12,12 +12,11 @@ class BooleanStyle extends VarPrinter
     public function render(): Style
     {
         $var = $this->sanitize($this->var);
-        $this->style
+
+        return $this->style
             ->push($var)->textYellow()
             ->push(' (')
             ->push('bool')->textLightGreen()
             ->push(')');
-
-        return $this->style;
     }
 }

@@ -13,12 +13,11 @@ class StringStyle extends VarPrinter
     {
         $lenght = $this->lenght($this->var);
         $var    = $this->sanitize($this->var);
-        $this->style
+
+        return $this->style
             ->push($var)->textYellow()
             ->push(' (')
             ->push('string:' . $lenght)->textLightGreen()
             ->push(')');
-
-        return $this->style;
     }
 }

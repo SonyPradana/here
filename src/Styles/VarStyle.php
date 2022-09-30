@@ -9,16 +9,6 @@ use System\Console\Style\Style;
 
 class VarStyle extends VarPrinter
 {
-    /** @var bool Cek variable is closure */
-    private $is_closure;
-
-    public function ref($var)
-    {
-        $this->is_closure = is_callable($var);
-
-        return parent::ref($var);
-    }
-
     public function render(): Style
     {
         $type = gettype($this->var);
@@ -35,10 +25,10 @@ class VarStyle extends VarPrinter
             return (new BooleanStyle($this->style))->ref($this->var)->render();
         }
 
-        if ($this->is_closure) {
-            return (new DefaultStyle($this->style))->ref('Closure')->render();
+        if ($type === 'object') {
+            return (new ClassStyle($this->style))->ref($this->var)->render();
         }
 
-        return (new ClassStyle($this->style))->ref($this->var)->render();
+        return (new DefaultStyle($this->style))->ref($this->var)->render();
     }
 }
