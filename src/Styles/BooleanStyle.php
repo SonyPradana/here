@@ -11,10 +11,9 @@ class BooleanStyle extends VarPrinter
 {
     public function render(): Style
     {
-        $var  = $this->var;
-        $bool = $var == true ? 'true' : 'false';
+        $var = $this->sanitize($this->var);
         $this->style
-            ->push($bool)->textYellow()
+            ->push($var)->textYellow()
             ->push(' (')
             ->push('bool')->textLightGreen()
             ->push(')')

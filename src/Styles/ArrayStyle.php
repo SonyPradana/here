@@ -11,8 +11,7 @@ class ArrayStyle extends VarPrinter
 {
     public function render(): Style
     {
-        $var = json_encode($this->var, JSON_PRETTY_PRINT);
-        $var = $var === false ? '{}' : $var;
+        $var = $this->sanitize($this->var);
 
         return $this->style
             ->new_lines()
