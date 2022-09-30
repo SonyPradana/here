@@ -14,9 +14,6 @@ class DefaultStyle extends VarPrinter
         $var = $this->sanitize($this->var);
         $this->style
             ->push($var)->textGreen()
-            ->push(' (')
-            ->push(gettype($var))->textLightGreen()
-            ->push(')')
             ->new_lines();
 
         return $this->style;

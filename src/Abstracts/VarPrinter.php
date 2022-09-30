@@ -29,6 +29,9 @@ abstract class VarPrinter
      */
     public function ref($var)
     {
+        if (is_callable($var)) {
+            $var = call_user_func($var);
+        }
         $this->var = $var;
 
         return $this;
