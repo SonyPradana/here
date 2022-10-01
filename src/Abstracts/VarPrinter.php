@@ -48,7 +48,7 @@ abstract class VarPrinter
      */
     public function sanitize($var)
     {
-        $encode = json_encode($var, JSON_PRETTY_PRINT);
+        $encode = json_encode($var, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
 
         if ($encode === false) {
             throw new \Exception('Variable cant be ptrint');

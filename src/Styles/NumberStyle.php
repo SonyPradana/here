@@ -13,13 +13,11 @@ class NumberStyle extends VarPrinter
     {
         // $lenght = $this->lenght($this->var);
         $var    = $this->sanitize($this->var);
-        $this->style
+
+        return $this->style
             ->push($var)->textBlue()
             ->push(' (')
             ->push(gettype($this->var))->textLightGreen()
-            ->push(')')
-            ->new_lines();
-
-        return $this->style;
+            ->push(')');
     }
 }

@@ -215,6 +215,6 @@ final class Printer extends AbstractsPrinter
             ? (new ArrayStyle($style))->ref($var)->render()
             : (new VarStyle($style))->ref($var)->render();
 
-        return $style;
+        return $style->new_lines();
     }
 }

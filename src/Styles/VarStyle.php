@@ -25,6 +25,10 @@ class VarStyle extends VarPrinter
             return (new BooleanStyle($this->style))->ref($this->var)->render();
         }
 
+        if ($type === 'object') {
+            return (new ClassStyle($this->style))->ref($this->var)->render();
+        }
+
         return (new DefaultStyle($this->style))->ref($this->var)->render();
     }
 }
