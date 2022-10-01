@@ -6,6 +6,7 @@ namespace Here\Styles;
 
 use Here\Abstracts\VarPrinter;
 use ReflectionClass;
+use ReflectionProperty;
 use System\Console\Style\Style;
 
 class ClassStyle extends VarPrinter
@@ -15,25 +16,30 @@ class ClassStyle extends VarPrinter
         $obj   = (object) $this->var;
         $class = new ReflectionClass($obj);
 
-        $var = [];
-        foreach ($class->getDefaultProperties() as $property => $value) {
-            $visible = '';
-            if ($class->getProperty($property)->isPublic()) {
-                $value   = $class->getProperty($property)->getValue($obj);
-                $visible = '+';
+        foreach ($class->getDefaultProperties() as $name => $value) {
+            $visible  = '';
+            $property = $class->getProperty($name);
+            $property->setAccessible(true);
+            $value = $property->getValue($obj);
+
+            switch ($property->getModifiers()) {
+                case ReflectionProperty::IS_PUBLIC:
+                    $visible = '+';
+                    break;
+
+                case ReflectionProperty::IS_PRIVATE:
+                    $visible = '-';
+                    break;
+
+                case ReflectionProperty::IS_PROTECTED:
+                    $visible = '#';
+                    break;
             }
 
-            if ($class->getProperty($property)->isPrivate()) {
-                $visible = '-';
-            }
-
-            if ($class->getProperty($property)->isProtected()) {
-                $visible = '#';
-            }
             $this->style->new_lines();
             $this->style->repeat(' ', 4);
             $this->style->push($visible)->textYellow();
-            $this->style->push($property);
+            $this->style->push($name);
             $this->style->push(': ')->textYellow();
 
             $var = is_array($value)

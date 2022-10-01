@@ -188,13 +188,13 @@ final class Printer extends AbstractsPrinter
              && $has_var === true
              && $this->EOL_var === false
             ) {
-                $this->printVar($print, $var, $lenght)->new_lines();
+                $this->printVar($print, $var, $lenght);
                 continue;
             }
         }
 
         if ($has_var === true && $this->EOL_var === true) {
-            $this->printVar($print, $var, $lenght)->new_lines();
+            $this->printVar($print, $var, $lenght);
         }
     }
 
@@ -215,6 +215,6 @@ final class Printer extends AbstractsPrinter
             ? (new ArrayStyle($style))->ref($var)->render()
             : (new VarStyle($style))->ref($var)->render();
 
-        return $style;
+        return $style->new_lines();
     }
 }
