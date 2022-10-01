@@ -14,6 +14,9 @@ abstract class VarPrinter
     /** @var mixed */
     protected $var;
 
+    /** @var int tab indet dept */
+    protected $dept = 3;
+
     /**
      * @param Style $style
      */
@@ -70,5 +73,17 @@ abstract class VarPrinter
         $str = $var;
 
         return \strlen($str);
+    }
+
+    /**
+     * Set tab indet dept.
+     *
+     * @return self
+     */
+    public function dept(int $dept)
+    {
+        $this->dept = $dept;
+
+        return $this;
     }
 }
