@@ -45,13 +45,32 @@ final class ServeCommand extends Command
      */
     public function serve()
     {
+        $style = new Style();
+        if (Config::get('socket.enable', false) === false) {
+            $style->new_lines();
+            $style->push(' warm ')->textWhite()->bgLightYellow()->push(' ');
+            $style->push('Runing server with socket report disable')->new_lines(2);
+
+            $style->push('Enable socket report?')->textYellow();
+            $style->push('(yes)')->textGreen();
+            $style->push('(no)')->out();
+
+            if (!$this->promt()) {
+                exit;
+            }
+            $style->new_lines(2);
+        }
+
         /** @var string */
         $uri = $this->OPTION[0] ?? Config::get('socket.uri', '127.0.0.1:8080');
+
         // header information
-        style('socket server')->textGreen()->new_lines()->out();
-        style('info')->textWhite()->bgBlue()->push(' ')
-            ->push($uri)->new_lines()->out();
-        style('listening...')->textDim()->out();
+        $style->push('socket server')->textGreen()->new_lines(2);
+
+        $style->push(' info ')->textWhite()->bgBlue()->push(' ');
+        $style->push($uri)->new_lines(2);
+
+        $style->push('listening...')->textDim()->out();
 
         // socket
         $socket = new \React\Socket\SocketServer($uri);
@@ -152,5 +171,22 @@ final class ServeCommand extends Command
         // set print.line
         $var_end = $this->option('varend', false);
         Config::set('print.var.end', $var_end);
+    }
+
+    private function promt(): bool
+    {
+        $input = fgets(STDIN);
+
+        if ($input === false) {
+            throw new \Exception('Cant read input');
+        }
+        $asal = trim($input);
+        if ($asal === 'yes' || $asal === 'y') {
+            Config::set('socket.enable', true);
+
+            return true;
+        }
+
+        return false;
     }
 }
