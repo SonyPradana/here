@@ -43,7 +43,7 @@
     "scripts": {
         "lint": "php-cs-fixer fix -v",
         "test:lint": "php-cs-fixer fix -v --dry-run",
-        "test:types": "phpstan analyse --ansi --memory-limit=-1 --debug",
+        "test:types": "phpstan analyse --ansi",
         "test:unit": "phpunit",
         "test": [
             "@test:lint",
