@@ -52,13 +52,13 @@ final class ServeCommand extends Command
             $style->push('Runing server with socket report disable')->new_lines(2);
 
             $style->push('Enable socket report?')->textYellow();
-            $style->push('(yes)')->textGreen();
-            $style->push('(no)')->out();
+            $style->push(' (yes) ');
+            $style->out(false);
 
             if (!$this->promt()) {
                 exit;
             }
-            $style->new_lines(2);
+            $style->new_lines()->flush();
         }
 
         /** @var string */
@@ -181,12 +181,12 @@ final class ServeCommand extends Command
             throw new \Exception('Cant read input');
         }
         $asal = trim($input);
-        if ($asal === 'yes' || $asal === 'y') {
-            Config::set('socket.enable', true);
-
-            return true;
+        if ($asal === 'no' || $asal === 'n') {
+            return false;
         }
 
-        return false;
+        Config::set('socket.enable', true);
+
+        return true;
     }
 }
