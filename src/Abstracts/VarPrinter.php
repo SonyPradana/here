@@ -15,7 +15,7 @@ abstract class VarPrinter
     protected $var;
 
     /** @var int tab indet depth */
-    protected $tab_size = 3;
+    protected $tab_size = 2;
 
     /** @var int current line print */
     protected $current_line = 0;
@@ -88,7 +88,7 @@ abstract class VarPrinter
      */
     public function tabSize(int $tab_size)
     {
-        $this->tab_size = $tab_size;
+        $this->tab_size = $tab_size < 2 ? 2 : $tab_size;
 
         return $this;
     }

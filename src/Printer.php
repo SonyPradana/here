@@ -212,8 +212,8 @@ final class Printer extends AbstractsPrinter
         $style->push(Str::fill('', ' ', $margin_left) . 'var : ')->textLightYellow();
 
         $style = is_array($var)
-            ? (new ArrayStyle($style))->ref($var)->render()
-            : (new VarStyle($style))->ref($var)->render();
+            ? (new ArrayStyle($style))->ref($var)->tabSize($margin_left)->render()
+            : (new VarStyle($style))->ref($var)->tabSize($margin_left)->render();
 
         return $style->new_lines();
     }
