@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.1.1] - 2022-10-02
+### Changed
+- Refactor new `ArrayStyle::class` print style.
+
 ## [0.1.0] - 2022-10-01
 ### Added
 - Added suport reporting using socket ([#6](https:github.com/sonypradana/here/pull/6)).
