@@ -14,21 +14,41 @@ class VarStyle extends VarPrinter
         $type = gettype($this->var);
 
         if ($type === 'string') {
-            return (new StringStyle($this->style))->ref($this->var)->render();
+            return (new StringStyle($this->style))
+                ->ref($this->var)
+                ->currentLine($this->current_line)
+                ->tabSize($this->tab_size)
+                ->render();
         }
 
         if ($type === 'integer' | $type === 'double') {
-            return (new NumberStyle($this->style))->ref($this->var)->render();
+            return (new NumberStyle($this->style))
+                ->ref($this->var)
+                ->currentLine($this->current_line)
+                ->tabSize($this->tab_size)
+                ->render();
         }
 
         if ($type === 'boolean') {
-            return (new BooleanStyle($this->style))->ref($this->var)->render();
+            return (new BooleanStyle($this->style))
+                ->ref($this->var)
+                ->currentLine($this->current_line)
+                ->tabSize($this->tab_size)
+                ->render();
         }
 
         if ($type === 'object') {
-            return (new ClassStyle($this->style))->ref($this->var)->render();
+            return (new ClassStyle($this->style))
+                ->ref($this->var)
+                ->currentLine($this->current_line)
+                ->tabSize($this->tab_size)
+                ->render();
         }
 
-        return (new DefaultStyle($this->style))->ref($this->var)->render();
+        return (new DefaultStyle($this->style))
+            ->ref($this->var)
+            ->currentLine($this->current_line)
+            ->tabSize($this->tab_size)
+            ->render();
     }
 }
