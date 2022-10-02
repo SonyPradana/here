@@ -33,12 +33,12 @@ class ArrayStyle extends VarPrinter
         foreach ($var as $key => $value) {
             $this->current_line++;
             if ($this->current_line > $this->max_line) {
-                $this->style->new_lines()->repeat(' ', 4)->push('...')->textDim();
+                $this->style->new_lines()->repeat(' ', $this->tab_size * 2)->push('...')->textDim();
                 break;
             }
 
             $this->style->new_lines();
-            $this->style->repeat(' ', $this->dept * 2);
+            $this->style->repeat(' ', $this->tab_size * 2);
             $this->style->push($key)->textLightGreen();
             $this->style->push(' => ')->textYellow();
 
@@ -47,13 +47,13 @@ class ArrayStyle extends VarPrinter
                 : new VarStyle($this->style);
 
             $style->ref($value)
-                ->dept($this->dept + 1)
+                ->tabSize($this->tab_size + 1)
                 ->currentLine($this->current_line)
             ;
             $this->style = $style->render();
         }
 
-        $this->style->new_lines()->repeat(' ', ($this->dept * 2) - 2);
+        $this->style->new_lines()->repeat(' ', ($this->tab_size * 2) - 2);
         $this->style->push(']')->textYellow();
 
         return $this->style;

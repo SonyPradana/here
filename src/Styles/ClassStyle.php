@@ -63,7 +63,7 @@ class ClassStyle extends VarPrinter
                 : new VarStyle($this->style);
 
             $style->ref($value)
-                ->dept($this->dept + 1)
+                ->tabSize($this->tab_size + 1)
             ;
 
             $this->style = $style->ref($value)->render();

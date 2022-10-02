@@ -14,8 +14,8 @@ abstract class VarPrinter
     /** @var mixed */
     protected $var;
 
-    /** @var int tab indet dept */
-    protected $dept = 3;
+    /** @var int tab indet depth */
+    protected $tab_size = 3;
 
     /** @var int current line print */
     protected $current_line = 0;
@@ -82,13 +82,13 @@ abstract class VarPrinter
     }
 
     /**
-     * Set tab indet dept.
+     * Set tab indet depth.
      *
      * @return self
      */
-    public function dept(int $dept)
+    public function tabSize(int $tab_size)
     {
-        $this->dept = $dept;
+        $this->tab_size = $tab_size;
 
         return $this;
     }
