@@ -212,7 +212,7 @@ final class Printer extends AbstractsPrinter
         $style->push(Str::fill('', ' ', $margin_left) . 'var : ')->textLightYellow();
 
         $tab_size = (int) round($margin_left / 2);
-        $style = is_array($var)
+        $style    = is_array($var)
             ? (new ArrayStyle($style))->ref($var)->tabSize($tab_size)->render()
             : (new VarStyle($style))->ref($var)->tabSize($tab_size)->render();
 
