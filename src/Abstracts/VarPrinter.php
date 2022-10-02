@@ -14,12 +14,21 @@ abstract class VarPrinter
     /** @var mixed */
     protected $var;
 
+    /** @var int tab indet depth */
+    protected $tab_size = 3;
+
+    /** @var int current line print */
+    protected $current_line = 0;
+
+    /** @var int max line to be print */
+    protected $max_line = 5;
+
     /**
      * @param Style $style
      */
     public function __construct($style)
     {
-        $this->style = $style;
+        $this->style    = $style;
     }
 
     /**
@@ -70,5 +79,41 @@ abstract class VarPrinter
         $str = $var;
 
         return \strlen($str);
+    }
+
+    /**
+     * Set tab indet depth.
+     *
+     * @return self
+     */
+    public function tabSize(int $tab_size)
+    {
+        $this->tab_size = $tab_size;
+
+        return $this;
+    }
+
+    /**
+     * Set current line print.
+     *
+     * @return self
+     */
+    public function currentLine(int $current_line)
+    {
+        $this->current_line = $current_line;
+
+        return $this;
+    }
+
+    /**
+     * Set max line to be print.
+     *
+     * @return self
+     */
+    public function maxLine(int $max_line)
+    {
+        $this->max_line = $max_line;
+
+        return $this;
     }
 }
