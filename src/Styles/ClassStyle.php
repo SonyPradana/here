@@ -26,6 +26,8 @@ class ClassStyle extends VarPrinter
         $obj   = (object) $this->var;
         $class = new ReflectionClass($obj);
 
+        $this->style->push($class->name)->textBlue();
+
         foreach ($class->getDefaultProperties() as $name => $value) {
             $this->current_line++;
             if ($this->current_line > $this->max_line) {
