@@ -29,6 +29,7 @@ final class ConfigTest extends TestCase
         $this->assertEquals([
             'print.line'    => 2,
             'print.var.end' => false,
+            'print.var.max' => 5,
             'socket.enable' => false,
             'socket.uri'    => '127.0.0.1:8080',
         ], Config::all());
@@ -44,6 +45,7 @@ final class ConfigTest extends TestCase
         $this->assertEquals([
             'print.line'    => 2,
             'print.var.end' => false,
+            'print.var.max' => 5,
             'socket.enable' => false,
             'socket.uri'    => '127.0.0.1:8080',
         ], Config::all());

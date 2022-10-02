@@ -99,6 +99,7 @@ final class ServeCommand extends Command
             '--init'    => 'Config, create new Here configuration in root application',
             '--line'    => 'Config, set default printer up/down line count',
             '--var-end' => 'Config, set default printer up/down line count',
+            '--var-max' => 'Config, set default printer maximum line to be print',
             '--socket'  => 'Config, enable/disable socket reporting',
             '--uri'     => 'Config, set default socket uri',
         ];
@@ -171,6 +172,12 @@ final class ServeCommand extends Command
         // set print.line
         $var_end = $this->option('varend', false);
         Config::set('print.var.end', $var_end);
+
+        // set print.var.max
+        $max_line = $this->option('varmax', false);
+        if ($line !== true) {
+            Config::set('print.var.max', (int) $max_line);
+        }
     }
 
     private function promt(): bool

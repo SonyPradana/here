@@ -5,10 +5,20 @@ declare(strict_types=1);
 namespace Here\Styles;
 
 use Here\Abstracts\VarPrinter;
+use Here\Config;
 use System\Console\Style\Style;
 
 class ArrayStyle extends VarPrinter
 {
+    /**
+     * @param Style $style
+     */
+    public function __construct($style)
+    {
+        parent::__construct($style);
+        $this->max_line = (int) Config::get('print.var.max', 5);
+    }
+
     public function render(): Style
     {
         /** @var array<int|string, mixed> */
@@ -21,6 +31,12 @@ class ArrayStyle extends VarPrinter
         ;
 
         foreach ($var as $key => $value) {
+            $this->current_line++;
+            if ($this->current_line > $this->max_line) {
+                $this->style->new_lines()->repeat(' ', 4)->push('...')->textDim();
+                break;
+            }
+
             $this->style->new_lines();
             $this->style->repeat(' ', $this->dept * 2);
             $this->style->push($key)->textLightGreen();
@@ -29,7 +45,12 @@ class ArrayStyle extends VarPrinter
             $style = is_array($value)
                 ? new ArrayStyle($this->style)
                 : new VarStyle($this->style);
-            $this->style = $style->ref($value)->dept($this->dept + 1)->render();
+
+            $style->ref($value)
+                ->dept($this->dept + 1)
+                ->currentLine($this->current_line)
+            ;
+            $this->style = $style->render();
         }
 
         $this->style->new_lines()->repeat(' ', ($this->dept * 2) - 2);

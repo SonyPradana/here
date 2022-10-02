@@ -17,12 +17,18 @@ abstract class VarPrinter
     /** @var int tab indet dept */
     protected $dept = 3;
 
+    /** @var int current line print */
+    protected $current_line = 0;
+
+    /** @var int max line to be print */
+    protected $max_line = 5;
+
     /**
      * @param Style $style
      */
     public function __construct($style)
     {
-        $this->style = $style;
+        $this->style    = $style;
     }
 
     /**
@@ -83,6 +89,30 @@ abstract class VarPrinter
     public function dept(int $dept)
     {
         $this->dept = $dept;
+
+        return $this;
+    }
+
+    /**
+     * Set current line print.
+     *
+     * @return self
+     */
+    public function currentLine(int $current_line)
+    {
+        $this->current_line = $current_line;
+
+        return $this;
+    }
+
+    /**
+     * Set max line to be print.
+     *
+     * @return self
+     */
+    public function maxLine(int $max_line)
+    {
+        $this->max_line = $max_line;
 
         return $this;
     }
