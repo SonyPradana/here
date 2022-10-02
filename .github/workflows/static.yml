@@ -3,29 +3,7 @@ name: Static Analysis
 on: ['push', 'pull_request']
 
 jobs:
-  cs:
-    runs-on: ubuntu-latest
-
-    name: Code Style
-
-    steps:
-    - name: Checkout
-      uses: actions/checkout@v2
-
-    - name: Setup PHP
-      uses: shivammathur/setup-php@v2
-      with:
-        php-version: 8.0
-        tools: composer:v2
-        coverage: none
-
-    - name: Install Dependencies
-      run: composer update --no-interaction --no-progress --ansi
-
-    - name: Run PHP-CS-Fixer
-      run: vendor/bin/php-cs-fixer fix -v --allow-risky=yes --dry-run --ansi
-
-  phpstan:
+  format:
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -47,5 +25,11 @@ jobs:
     - name: Install Dependencies
       run: composer update --no-interaction --no-progress --ansi
 
+    - name: Run PHP-CS-Fixer
+      run: vendor/bin/php-cs-fixer fix -v --allow-risky=yes --dry-run --ansi
+
+    - name: Run Rectorphp
+      run: vendor/bin/rector --dry-run
+
     - name: Run PHPStan
-      run: vendor/bin/phpstan analyse --no-progress --debug --ansi
+      run: vendor/bin/phpstan analyse --ansi
