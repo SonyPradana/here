@@ -9,7 +9,7 @@ use ReflectionClass;
 use ReflectionProperty;
 use System\Console\Style\Style;
 
-class ClassStyle extends VarPrinter
+final class ClassStyle extends VarPrinter
 {
     public function render(): Style
     {

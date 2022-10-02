@@ -18,14 +18,14 @@ final class Here
      *
      * @var array<int, array<string, array<int, mixed>|int|string>>
      */
-    private static $info = [];
+    private static array $info = [];
 
     /**
      * Dump var in end of capture code.
      *
      * @var bool True if print in the end
      */
-    private $EOL_var = false;
+    private bool $EOL_var = false;
 
     /**
      * cached file.
@@ -36,10 +36,8 @@ final class Here
 
     /**
      * Group name.
-     *
-     * @var string
      */
-    private $group;
+    private string $group;
 
     /**
      * New instance.
@@ -112,7 +110,7 @@ final class Here
      */
     public static function getCapture($file_name, $lines)
     {
-        $content = array_merge([''], self::getContent($file_name));
+        $content = [...[''], ...self::getContent($file_name)];
 
         return (new Collection($content))->only($lines)->all();
     }

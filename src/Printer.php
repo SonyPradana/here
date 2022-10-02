@@ -17,7 +17,7 @@ final class Printer extends AbstractsPrinter
      *
      * @var bool True if print in the end
      */
-    private $EOL_var = false;
+    private bool $EOL_var = false;
 
     /**
      * Dump var in end of capture code.

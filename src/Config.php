@@ -7,7 +7,7 @@ namespace Here;
 final class Config
 {
     /** @var array<string, string|bool|int|null> */
-    private static $configs = [];
+    private static array $configs = [];
 
     /**
      * Load config for config file.
@@ -30,7 +30,7 @@ final class Config
         $config        = file_get_contents($default_config_file);
         $config        = $config === false ? '{}' : $config;
         // @phpstan-ignore-next-line
-        self::$configs = json_decode($config, true);
+        self::$configs = json_decode($config, true, 512, JSON_THROW_ON_ERROR);
     }
 
     /**

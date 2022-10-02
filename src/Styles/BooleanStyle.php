@@ -7,7 +7,7 @@ namespace Here\Styles;
 use Here\Abstracts\VarPrinter;
 use System\Console\Style\Style;
 
-class BooleanStyle extends VarPrinter
+final class BooleanStyle extends VarPrinter
 {
     public function render(): Style
     {

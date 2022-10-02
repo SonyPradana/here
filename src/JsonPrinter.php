@@ -6,7 +6,7 @@ namespace Here;
 
 use Here\Abstracts\Printer;
 
-class JsonPrinter extends Printer
+final class JsonPrinter extends Printer
 {
     /** {@inheritdoc} */
     public function info()
@@ -109,7 +109,7 @@ class JsonPrinter extends Printer
      */
     private function sendJson($out)
     {
-        $this->send(json_encode($out));
+        $this->send(json_encode($out, JSON_THROW_ON_ERROR));
     }
 
     /**

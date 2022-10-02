@@ -7,7 +7,7 @@ namespace Here\Styles;
 use Here\Abstracts\VarPrinter;
 use System\Console\Style\Style;
 
-class NumberStyle extends VarPrinter
+final class NumberStyle extends VarPrinter
 {
     public function render(): Style
     {
