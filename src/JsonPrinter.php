@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Here;
 
 use Here\Abstracts\Printer;
+use ReflectionClass;
 
 class JsonPrinter extends Printer
 {
@@ -27,9 +28,10 @@ class JsonPrinter extends Printer
         $snapshot = Here::getCapture($file, $capture);
 
         $this->sendJson([
-            'file' => $this->content['file'],
-        'line'     => $this->content['line'],
-        'snapshot' => array_map(fn ($trim) => trim($trim), $snapshot),
+            'file'     => $this->content['file'],
+            'line'     => $this->content['line'],
+            'snapshot' => array_map(fn ($trim) => trim($trim), $snapshot),
+            'var'      => $this->encodeVar($var),
         ]);
     }
 
@@ -109,7 +111,7 @@ class JsonPrinter extends Printer
      */
     private function sendJson($out)
     {
-        $this->send(json_encode($out));
+        $this->send(json_encode($out, JSON_UNESCAPED_SLASHES | JSON_THROW_ON_ERROR, 512));
     }
 
     /**
@@ -127,7 +129,7 @@ class JsonPrinter extends Printer
         $connector = new \React\Socket\Connector();
 
         $connector->connect($uri)->then(function (\React\Socket\ConnectionInterface $connection) use ($out) {
-            $connection->end($out);
+            $connection->end(PHP_EOL . $out);
         }, function (\Exception $e) {
             echo 'Error: ' . $e->getMessage() . PHP_EOL;
         });
@@ -145,5 +147,38 @@ class JsonPrinter extends Printer
      */
     protected function printSnapshot(&$print, $content, ...$var)
     {
+    }
+
+    /**
+     * Encode variable.
+     *
+     * @param array<int, mixed> $var
+     *
+     * @return string
+     */
+    private function encodeVar($var)
+    {
+        $var = $var[0];
+
+        $encode = [];
+        if (is_callable($var)) {
+            $var = call_user_func($var);
+        }
+
+        if (is_object($var)) {
+            $obj   = (object) $var;
+            $class = new ReflectionClass($obj);
+
+            $encode['name'] = $class->name;
+            foreach ($class->getDefaultProperties() as $name => $value) {
+                $property = $class->getProperty($name);
+                $property->setAccessible(true);
+                $value = $property->getValue($obj);
+
+                $encode[$name] = $value;
+            }
+        }
+
+        return json_encode($encode, JSON_UNESCAPED_SLASHES | JSON_THROW_ON_ERROR, 512);
     }
 }
