@@ -117,7 +117,7 @@ class JsonPrinter extends Printer
      */
     protected function send($out)
     {
-        if ($this->mark_test) {
+        if (self::$mark_test) {
             return;
         }
 
