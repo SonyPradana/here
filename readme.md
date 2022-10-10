@@ -1,9 +1,9 @@
-# Dump 'here'
+bu# Dump 'here'
 Dump your current line of code, for make sure your on right tract.
 
 # Installation
 ```bash
-composer require sonypradana/here
+composer require sonypradana/here  --dev
 ```
 # How to Use
 Put `here()` anywhere to your code
