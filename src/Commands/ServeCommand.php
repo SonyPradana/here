@@ -6,11 +6,12 @@ namespace Here\Commands;
 
 use Here\Config;
 use System\Console\Command;
-
-use function System\Console\style;
-
 use System\Console\Style\Style;
 use System\Console\Traits\PrintHelpTrait;
+
+use function System\Console\info;
+use function System\Console\style;
+use function System\Console\warn;
 
 final class ServeCommand extends Command
 {
@@ -47,9 +48,9 @@ final class ServeCommand extends Command
     {
         $style = new Style();
         if (Config::get('socket.enable', false) === false) {
-            $style->new_lines();
-            $style->push(' warm ')->textWhite()->bgLightYellow()->push(' ');
-            $style->push('Runing server with socket report disable')->new_lines(2);
+            $style->tap(
+                warn('Runing server with socket report disable')
+            );
 
             $style->push('Enable socket report?')->textYellow();
             $style->push(' (yes) ');
@@ -65,11 +66,8 @@ final class ServeCommand extends Command
         $uri = $this->OPTION[0] ?? Config::get('socket.uri', '127.0.0.1:8080');
 
         // header information
-        $style->push('socket server')->textGreen()->new_lines(2);
-
-        $style->push(' info ')->textWhite()->bgBlue()->push(' ');
-        $style->push($uri)->new_lines(2);
-
+        $style->push('socket server')->textGreen()->new_lines();
+        $style->tap(info($uri));
         $style->push('listening...')->textDim()->out();
 
         // socket
