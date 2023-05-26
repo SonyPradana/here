@@ -6,8 +6,6 @@ namespace Here\Styles;
 
 use Here\Abstracts\VarPrinter;
 use Here\Config;
-use ReflectionClass;
-use ReflectionProperty;
 use System\Console\Style\Style;
 
 class ClassStyle extends VarPrinter
@@ -24,7 +22,7 @@ class ClassStyle extends VarPrinter
     public function render(): Style
     {
         $obj   = (object) $this->var;
-        $class = new ReflectionClass($obj);
+        $class = new \ReflectionClass($obj);
 
         $this->style->push($class->name)->textBlue();
 
@@ -41,15 +39,15 @@ class ClassStyle extends VarPrinter
             $value = $property->getValue($obj);
 
             switch ($property->getModifiers()) {
-                case ReflectionProperty::IS_PUBLIC:
+                case \ReflectionProperty::IS_PUBLIC:
                     $visible = '+';
                     break;
 
-                case ReflectionProperty::IS_PRIVATE:
+                case \ReflectionProperty::IS_PRIVATE:
                     $visible = '-';
                     break;
 
-                case ReflectionProperty::IS_PROTECTED:
+                case \ReflectionProperty::IS_PROTECTED:
                     $visible = '#';
                     break;
             }

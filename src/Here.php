@@ -114,7 +114,10 @@ final class Here
     {
         $content = array_merge([''], self::getContent($file_name));
 
-        return (new Collection($content))->only($lines)->all();
+        /** @var Collection<int, string> */
+        $capture = (new Collection($content));
+
+        return $capture->only($lines)->toArray();
     }
 
     /**

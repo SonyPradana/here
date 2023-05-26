@@ -23,13 +23,13 @@
     ],
     "require": {
         "php": "^7.4 || ^8.0",
-        "sonypradana/php-library": "^0.12",
+        "sonypradana/php-library": "0.x-dev",
         "react/socket": "^1.12"
     },
     "require-dev": {
-        "phpunit/phpunit": "^9.5.21",
-        "friendsofphp/php-cs-fixer": "^3.9.5",
-        "phpstan/phpstan": "^1.8.2"
+        "phpunit/phpunit": "^9.6.8",
+        "friendsofphp/php-cs-fixer": "^3.17.0",
+        "phpstan/phpstan": "^1.10.15"
     },
     "extra": {
         "laravel": {
