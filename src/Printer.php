@@ -8,7 +8,6 @@ use Here\Abstracts\Printer as AbstractsPrinter;
 use Here\Styles\ArrayStyle;
 use Here\Styles\VarStyle;
 use System\Console\Style\Style;
-use System\Text\Str;
 
 final class Printer extends AbstractsPrinter
 {
@@ -183,7 +182,7 @@ final class Printer extends AbstractsPrinter
             $arrow   = $current ? '-> ' : '   ';
 
             $print->push($arrow)->textGreen();
-            $print->push(Str::fill((string) $line, ' ', $lenght) . ' | ' . $code)->textDim();
+            $print->push(str_pad((string) $line, $lenght, ' ', STR_PAD_LEFT) . ' | ' . $code)->textDim();
             if ($current
              && $has_var === true
              && $this->EOL_var === false
@@ -209,7 +208,7 @@ final class Printer extends AbstractsPrinter
      */
     private function printVar(&$style, $var, $margin_left)
     {
-        $style->push(Str::fill('', ' ', $margin_left) . 'var : ')->textLightYellow();
+        $style->push(str_pad('', $margin_left, ' ', STR_PAD_LEFT) . 'var : ')->textLightYellow();
 
         $tab_size = (int) round($margin_left / 2);
         $style    = is_array($var)

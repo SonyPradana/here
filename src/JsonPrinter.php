@@ -27,9 +27,9 @@ class JsonPrinter extends Printer
         $snapshot = Here::getCapture($file, $capture);
 
         $this->sendJson([
-            'file' => $this->content['file'],
-        'line'     => $this->content['line'],
-        'snapshot' => array_map(fn ($trim) => trim($trim), $snapshot),
+            'file'     => $this->content['file'],
+            'line'     => $this->content['line'],
+            'snapshot' => array_map(fn ($trim) => trim($trim), $snapshot),
         ]);
     }
 

@@ -8,7 +8,7 @@ here('test');
 // some line code
 here('test');
 
-foreach (range(1, 25)as $line) {
+foreach (range(1, 25) as $line) {
     here('test');
 }
 
