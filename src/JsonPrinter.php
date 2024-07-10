@@ -51,20 +51,22 @@ class JsonPrinter extends Printer
         $group_file = [];
         foreach (Here::getHere() as $files) {
             if ($files['group'] === $group) {
-                $group_file[$files['file']][] = $files;
+                /** @var string */
+                $file                = $files['file'];
+                $group_file[$file][] = $files;
             }
         }
         // group by line
         $groups = [];
-        foreach ($group_file as $file) {
-            foreach ($file as $result) {
+        foreach ($group_file as $files) {
+            foreach ($files as $result) {
                 if (in_array($result['line'], $groups)) {
                     continue;
                 }
                 $groups[] = $result['line'];
 
                 // counter
-                $count    = array_filter($file, fn ($item) => $item['line'] === $result['line']);
+                $count    = array_filter($files, fn ($item) => $item['line'] === $result['line']);
 
                 // build snapshot
                 /** @var array<int, int> */
@@ -121,14 +123,14 @@ class JsonPrinter extends Printer
             return;
         }
 
-        $uri = (string) Config::get('socket.uri', '127.0.0.1:8080');
+        $uri = Config::castString('socket.uri', '127.0.0.1:8080');
         $out = $out === false ? '' : $out;
 
         $connector = new \React\Socket\Connector();
 
         $connector->connect($uri)->then(function (\React\Socket\ConnectionInterface $connection) use ($out) {
             $connection->end($out);
-        }, function (\Exception $e) {
+        }, function (\Throwable $e) {
             echo 'Error: ' . $e->getMessage() . PHP_EOL;
         });
     }

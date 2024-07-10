@@ -40,7 +40,7 @@ final class Printer extends AbstractsPrinter
         }
 
         $use_socket = Config::get('socket.enable', false);
-        $uri        = (string) Config::get('socket.uri', '127.0.0.1:8080');
+        $uri        = Config::castString('socket.uri', '127.0.0.1:8080');
         $out        = $out === false ? '' : $out;
 
         if ($use_socket === false) {
@@ -53,7 +53,7 @@ final class Printer extends AbstractsPrinter
 
         $connector->connect($uri)->then(function (\React\Socket\ConnectionInterface $connection) use ($out) {
             $connection->end($out);
-        }, function (\Exception $e) {
+        }, function (\Throwable $e) {
             echo 'Error: ' . $e->getMessage() . PHP_EOL;
         });
     }
@@ -100,19 +100,21 @@ final class Printer extends AbstractsPrinter
         $group_file = [];
         foreach (Here::getHere() as $files) {
             if ($files['group'] === $group) {
-                $group_file[$files['file']][] = $files;
+                /** @var string */
+                $file                = $files['file'];
+                $group_file[$file][] = $files;
             }
         }
         // group by line
         $groups = [];
-        foreach ($group_file as $file) {
-            foreach ($file as $result) {
+        foreach ($group_file as $files) {
+            foreach ($files as $result) {
                 if (in_array($result['line'], $groups)) {
                     continue;
                 }
                 $groups[] = $result['line'];
 
-                $count = array_filter($file, fn ($item) => $item['line'] === $result['line']);
+                $count = array_filter($files, fn ($item) => $item['line'] === $result['line']);
 
                 $this->printInfo($print, $result, count($count));
                 $this->printSnapshot($print, $result);
@@ -143,7 +145,7 @@ final class Printer extends AbstractsPrinter
     /** {@inheritdoc} */
     protected function printInfo(&$print, $content, $with_counter = false)
     {
-        $print->new_lines();
+        $print->newLines();
 
         $print->push(' work ')->textDarkGray()->bgGreen();
         if ($with_counter !== false) {
@@ -160,7 +162,7 @@ final class Printer extends AbstractsPrinter
     /** {@inheritdoc} */
     protected function printSnapshot(&$print, $content, ...$var)
     {
-        $print->new_lines();
+        $print->newLines();
 
         $count   = count($var);
         $has_var = $count > 0;
@@ -215,6 +217,6 @@ final class Printer extends AbstractsPrinter
             ? (new ArrayStyle($style))->ref($var)->tabSize($tab_size)->render()
             : (new VarStyle($style))->ref($var)->tabSize($tab_size)->render();
 
-        return $style->new_lines();
+        return $style->newLines();
     }
 }

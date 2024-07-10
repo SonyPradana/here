@@ -59,14 +59,14 @@ final class ServeCommand extends Command
             if (!$this->promt()) {
                 exit;
             }
-            $style->new_lines()->flush();
+            $style->newLines()->flush();
         }
 
         /** @var string */
         $uri = $this->OPTION[0] ?? Config::get('socket.uri', '127.0.0.1:8080');
 
         // header information
-        $style->push('socket server')->textGreen()->new_lines();
+        $style->push('socket server')->textGreen()->newLines();
         $style->tap(info($uri));
         $style->push('listening...')->textDim()->out();
 
@@ -75,7 +75,7 @@ final class ServeCommand extends Command
 
         $socket->on('connection', function (\React\Socket\ConnectionInterface $connection) {
             $connection->on('data', function ($chunk) {
-                style(now()->__toString())->textDim()->underline()
+                style((new \DateTime())->format('Y-m-d H:i:s'))->textDim()->underline()
                     ->push($chunk)
                     ->out();
             });
@@ -88,7 +88,7 @@ final class ServeCommand extends Command
     public function help()
     {
         $this->command_describes = [
-            'serve'     => 'Start socket server, default - ' . Config::get('socket.uri', '127.0.0.1:8080'),
+            'serve'     => 'Start socket server, default - ' . Config::castString('socket.uri', '127.0.0.1:8080'),
             'config'    => 'Set config to config file',
             'help'      => 'Show help command information',
         ];
@@ -117,12 +117,12 @@ final class ServeCommand extends Command
         $print
             ->textGreen()
             ->push(' command line application')->textBlue()
-            ->new_lines(2);
+            ->newLines(2);
 
-        $print->push('command:')->new_lines();
-        $print = $this->printCommands($print)->new_lines();
+        $print->push('command:')->newLines();
+        $print = $this->printCommands($print)->newLines();
 
-        $print->push('option:')->new_lines();
+        $print->push('option:')->newLines();
         $print = $this->printOptions($print);
 
         return $print;
