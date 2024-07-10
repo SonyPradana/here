@@ -6,6 +6,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.2.0-beta0] - 2024-07-10
+### Removed
+- Removed support php 7.4.
+
+### Changed
+- Use split repository instead using full library (sonypradana/collection, sonypradana/console).
+
 ## [0.1.1] - 2022-10-02
 ### Changed
 - Refactor new `ArrayStyle::class` print style.
@@ -26,7 +33,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added `Here::dumpIf()` dump snapshot if condition given as return true.
 
 ## [0.0.7] - 2022-08-25
-### Fixed 
+### Fixed
 - Fixed `Here::dump()` variable always printed.
 
 ## [0.0.6] - 2022-08-25
