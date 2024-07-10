@@ -6,7 +6,7 @@ namespace Here;
 
 final class Config
 {
-    /** @var array<string, string|bool|int|null> */
+    /** @var array<string, string[]|string|bool|int|null> */
     private static $configs = [];
 
     /**
@@ -36,7 +36,7 @@ final class Config
     /**
      * Save current config to config file.
      *
-     * @param array<string, string|bool|int|null> $configs
+     * @param array<string, string[]|string|bool|int|null> $configs
      *
      * @return void
      */
@@ -57,10 +57,10 @@ final class Config
     /**
      * Get config by key.
      *
-     * @param string               $key
-     * @param string|int|bool|null $default
+     * @param string                        $key
+     * @param string[]|string|int|bool|null $default
      *
-     * @return string|int|bool|null
+     * @return string[]|string|int|bool|null
      */
     public static function get($key, $default = null)
     {
@@ -74,8 +74,8 @@ final class Config
     /**
      * Set/create array item of config.
      *
-     * @param string               $key
-     * @param string|bool|int|null $val
+     * @param string                        $key
+     * @param string[]|string|bool|int|null $val
      *
      * @return void
      */
@@ -99,10 +99,26 @@ final class Config
     /**
      * Get cached config.
      *
-     * @return array<string, string|bool|int|null>
+     * @return array<string, string[]|string|bool|int|null>
      */
     public static function all()
     {
         return self::$configs;
+    }
+
+    /**
+     * Cast get return type as string.
+     *
+     * @param string      $key
+     * @param string|null $default
+     *
+     * @return string
+     */
+    public static function castString($key, $default = null)
+    {
+        /** @var string */
+        $string = self::get($key, $default);
+
+        return $string;
     }
 }

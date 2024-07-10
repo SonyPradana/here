@@ -14,7 +14,7 @@ final class DefaultStyleTest extends TestCase
         $style = new Style();
         $var   = new DefaultStyle($style);
 
-        $var->ref(now('04-09-2022')->__toString());
+        $var->ref((new DateTime('04-09-2022'))->format('Y-m-d H:i:s'));
         $out = $var->render()->__toString();
 
         $this->assertStringContainsString('2022', $out);

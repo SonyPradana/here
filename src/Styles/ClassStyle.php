@@ -29,7 +29,7 @@ class ClassStyle extends VarPrinter
         foreach ($class->getDefaultProperties() as $name => $value) {
             $this->current_line++;
             if ($this->current_line > $this->max_line) {
-                $this->style->new_lines()->repeat(' ', $this->tab_size * 2)->push('...')->textDim();
+                $this->style->newLines()->repeat(' ', $this->tab_size * 2)->push('...')->textDim();
                 break;
             }
 
@@ -52,7 +52,7 @@ class ClassStyle extends VarPrinter
                     break;
             }
 
-            $this->style->new_lines();
+            $this->style->newLines();
             $this->style->repeat(' ', $this->tab_size * 2);
             $this->style->push($visible)->textYellow();
             $this->style->push($name);
@@ -71,7 +71,7 @@ class ClassStyle extends VarPrinter
         }
 
         if ($class->hasMethod('__tostring')) {
-            $this->style->new_lines();
+            $this->style->newLines();
             $this->style->repeat(' ', $this->tab_size * 2);
             $this->style->push('__toString');
             $this->style->push(': ')->textYellow();
